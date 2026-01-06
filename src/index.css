@@ -2,95 +2,92 @@
 @tailwind components;
 @tailwind utilities;
 
-/* Definition of the design system. All colors, gradients, fonts, etc should be defined here. 
-All colors MUST be HSL.
-*/
+/* RETRO-TECHNICAL BLUEPRINT DESIGN SYSTEM */
 
 @layer base {
   :root {
-    --background: 0 0% 100%;
-    --foreground: 222.2 84% 4.9%;
-
-    --card: 0 0% 100%;
-    --card-foreground: 222.2 84% 4.9%;
-
-    --popover: 0 0% 100%;
-    --popover-foreground: 222.2 84% 4.9%;
-
-    --primary: 222.2 47.4% 11.2%;
-    --primary-foreground: 210 40% 98%;
-
-    --secondary: 210 40% 96.1%;
-    --secondary-foreground: 222.2 47.4% 11.2%;
-
-    --muted: 210 40% 96.1%;
-    --muted-foreground: 215.4 16.3% 46.9%;
-
-    --accent: 210 40% 96.1%;
-    --accent-foreground: 222.2 47.4% 11.2%;
-
-    --destructive: 0 84.2% 60.2%;
-    --destructive-foreground: 210 40% 98%;
-
-    --border: 214.3 31.8% 91.4%;
-    --input: 214.3 31.8% 91.4%;
-    --ring: 222.2 84% 4.9%;
-
-    --radius: 0.5rem;
-
-    --sidebar-background: 0 0% 98%;
-
-    --sidebar-foreground: 240 5.3% 26.1%;
-
-    --sidebar-primary: 240 5.9% 10%;
-
-    --sidebar-primary-foreground: 0 0% 98%;
-
-    --sidebar-accent: 240 4.8% 95.9%;
-
-    --sidebar-accent-foreground: 240 5.9% 10%;
-
-    --sidebar-border: 220 13% 91%;
-
-    --sidebar-ring: 217.2 91.2% 59.8%;
+    /* Core Terminal Colors - HSL */
+    --background: 0 0% 2%;
+    --foreground: 120 100% 50%;
+    
+    --card: 0 0% 3%;
+    --card-foreground: 120 100% 50%;
+    
+    --popover: 0 0% 3%;
+    --popover-foreground: 120 100% 50%;
+    
+    /* Phosphor Green Primary */
+    --primary: 120 100% 50%;
+    --primary-foreground: 0 0% 2%;
+    
+    /* Muted Terminal */
+    --secondary: 120 30% 8%;
+    --secondary-foreground: 120 100% 50%;
+    
+    --muted: 120 20% 6%;
+    --muted-foreground: 120 40% 35%;
+    
+    --accent: 180 100% 50%;
+    --accent-foreground: 0 0% 2%;
+    
+    --destructive: 0 84% 60%;
+    --destructive-foreground: 0 0% 98%;
+    
+    --border: 120 100% 20%;
+    --input: 120 100% 20%;
+    --ring: 120 100% 50%;
+    
+    --radius: 0px;
+    
+    /* Custom Terminal Variables */
+    --terminal-green: 120 100% 50%;
+    --terminal-cyan: 180 100% 50%;
+    --terminal-dim: 120 40% 25%;
+    --terminal-bg: 0 0% 2%;
+    --grid-color: 120 100% 8%;
+    
+    /* Glow effects */
+    --glow-green: 0 0 10px hsl(120 100% 50% / 0.5), 0 0 20px hsl(120 100% 50% / 0.3), 0 0 40px hsl(120 100% 50% / 0.1);
+    --glow-text: 0 0 8px hsl(120 100% 50% / 0.8);
+    
+    --sidebar-background: 0 0% 2%;
+    --sidebar-foreground: 120 100% 50%;
+    --sidebar-primary: 120 100% 50%;
+    --sidebar-primary-foreground: 0 0% 2%;
+    --sidebar-accent: 120 30% 8%;
+    --sidebar-accent-foreground: 120 100% 50%;
+    --sidebar-border: 120 100% 20%;
+    --sidebar-ring: 120 100% 50%;
   }
 
   .dark {
-    --background: 222.2 84% 4.9%;
-    --foreground: 210 40% 98%;
-
-    --card: 222.2 84% 4.9%;
-    --card-foreground: 210 40% 98%;
-
-    --popover: 222.2 84% 4.9%;
-    --popover-foreground: 210 40% 98%;
-
-    --primary: 210 40% 98%;
-    --primary-foreground: 222.2 47.4% 11.2%;
-
-    --secondary: 217.2 32.6% 17.5%;
-    --secondary-foreground: 210 40% 98%;
-
-    --muted: 217.2 32.6% 17.5%;
-    --muted-foreground: 215 20.2% 65.1%;
-
-    --accent: 217.2 32.6% 17.5%;
-    --accent-foreground: 210 40% 98%;
-
-    --destructive: 0 62.8% 30.6%;
-    --destructive-foreground: 210 40% 98%;
-
-    --border: 217.2 32.6% 17.5%;
-    --input: 217.2 32.6% 17.5%;
-    --ring: 212.7 26.8% 83.9%;
-    --sidebar-background: 240 5.9% 10%;
-    --sidebar-foreground: 240 4.8% 95.9%;
-    --sidebar-primary: 224.3 76.3% 48%;
-    --sidebar-primary-foreground: 0 0% 100%;
-    --sidebar-accent: 240 3.7% 15.9%;
-    --sidebar-accent-foreground: 240 4.8% 95.9%;
-    --sidebar-border: 240 3.7% 15.9%;
-    --sidebar-ring: 217.2 91.2% 59.8%;
+    --background: 0 0% 2%;
+    --foreground: 120 100% 50%;
+    --card: 0 0% 3%;
+    --card-foreground: 120 100% 50%;
+    --popover: 0 0% 3%;
+    --popover-foreground: 120 100% 50%;
+    --primary: 120 100% 50%;
+    --primary-foreground: 0 0% 2%;
+    --secondary: 120 30% 8%;
+    --secondary-foreground: 120 100% 50%;
+    --muted: 120 20% 6%;
+    --muted-foreground: 120 40% 35%;
+    --accent: 180 100% 50%;
+    --accent-foreground: 0 0% 2%;
+    --destructive: 0 62% 30%;
+    --destructive-foreground: 0 0% 98%;
+    --border: 120 100% 20%;
+    --input: 120 100% 20%;
+    --ring: 120 100% 50%;
+    --sidebar-background: 0 0% 2%;
+    --sidebar-foreground: 120 100% 50%;
+    --sidebar-primary: 120 100% 50%;
+    --sidebar-primary-foreground: 0 0% 2%;
+    --sidebar-accent: 120 30% 8%;
+    --sidebar-accent-foreground: 120 100% 50%;
+    --sidebar-border: 120 100% 20%;
+    --sidebar-ring: 120 100% 50%;
   }
 }
 
@@ -99,7 +96,272 @@ All colors MUST be HSL.
     @apply border-border;
   }
 
-  body {
-    @apply bg-background text-foreground;
+  html {
+    scroll-behavior: smooth;
   }
+
+  body {
+    @apply bg-background text-foreground font-mono;
+    font-family: 'JetBrains Mono', monospace;
+  }
+
+  /* CRT Scanline Effect */
+  body::before {
+    content: '';
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+    z-index: 9999;
+    background: repeating-linear-gradient(
+      0deg,
+      transparent,
+      transparent 2px,
+      hsl(120 100% 50% / 0.03) 2px,
+      hsl(120 100% 50% / 0.03) 4px
+    );
+  }
+
+  /* Screen flicker animation */
+  body::after {
+    content: '';
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+    z-index: 9998;
+    background: radial-gradient(ellipse at center, transparent 0%, hsl(0 0% 0% / 0.3) 100%);
+  }
+}
+
+@layer components {
+  /* Terminal Text Glow */
+  .text-glow {
+    text-shadow: var(--glow-text);
+  }
+
+  .text-glow-strong {
+    text-shadow: 0 0 5px hsl(var(--primary)), 0 0 10px hsl(var(--primary)), 0 0 20px hsl(var(--primary) / 0.5);
+  }
+
+  /* Box Glow */
+  .box-glow {
+    box-shadow: var(--glow-green);
+  }
+
+  /* Grid Background */
+  .grid-bg {
+    background-image: 
+      linear-gradient(hsl(var(--grid-color)) 1px, transparent 1px),
+      linear-gradient(90deg, hsl(var(--grid-color)) 1px, transparent 1px);
+    background-size: 40px 40px;
+  }
+
+  /* Blueprint Container with Corner Markers */
+  .blueprint-container {
+    position: relative;
+    border: 1px solid hsl(var(--border));
+  }
+
+  .blueprint-container::before,
+  .blueprint-container::after {
+    content: '+';
+    position: absolute;
+    font-size: 12px;
+    color: hsl(var(--muted-foreground));
+    font-family: 'JetBrains Mono', monospace;
+  }
+
+  .blueprint-container::before {
+    top: -8px;
+    left: -4px;
+  }
+
+  .blueprint-container::after {
+    top: -8px;
+    right: -4px;
+  }
+
+  /* Corner markers for bottom */
+  .corner-markers {
+    position: relative;
+  }
+
+  .corner-markers .bottom-left,
+  .corner-markers .bottom-right {
+    content: '+';
+    position: absolute;
+    font-size: 12px;
+    color: hsl(var(--muted-foreground));
+    font-family: 'JetBrains Mono', monospace;
+    bottom: -8px;
+  }
+
+  /* ASCII Separator */
+  .ascii-separator {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    color: hsl(var(--muted-foreground));
+    font-size: 12px;
+  }
+
+  .ascii-separator::before,
+  .ascii-separator::after {
+    content: '[----------------]';
+    font-family: 'JetBrains Mono', monospace;
+  }
+
+  /* Terminal Button */
+  .terminal-btn {
+    position: relative;
+    border: 1px solid hsl(var(--border));
+    background: transparent;
+    padding: 8px 16px;
+    color: hsl(var(--foreground));
+    font-family: 'JetBrains Mono', monospace;
+    text-transform: uppercase;
+    font-size: 12px;
+    letter-spacing: 0.1em;
+    cursor: pointer;
+    transition: all 0.2s ease;
+  }
+
+  .terminal-btn::before {
+    content: '[ ';
+  }
+
+  .terminal-btn::after {
+    content: ' ]';
+  }
+
+  .terminal-btn:hover {
+    background: hsl(var(--primary));
+    color: hsl(var(--primary-foreground));
+    box-shadow: var(--glow-green);
+  }
+
+  /* Selection Box Hover */
+  .selection-hover {
+    position: relative;
+  }
+
+  .selection-hover::before {
+    content: '';
+    position: absolute;
+    top: -4px;
+    left: -4px;
+    right: -4px;
+    bottom: -4px;
+    border: 1px dashed transparent;
+    transition: border-color 0.2s ease;
+    pointer-events: none;
+  }
+
+  .selection-hover:hover::before {
+    border-color: hsl(var(--primary));
+  }
+
+  /* Typing Cursor */
+  .typing-cursor::after {
+    content: '█';
+    animation: blink 1s step-end infinite;
+  }
+
+  @keyframes blink {
+    0%, 50% { opacity: 1; }
+    51%, 100% { opacity: 0; }
+  }
+
+  /* Progress Bar Terminal Style */
+  .terminal-progress {
+    height: 4px;
+    background: hsl(var(--muted));
+    border: 1px solid hsl(var(--border));
+    overflow: hidden;
+  }
+
+  .terminal-progress-bar {
+    height: 100%;
+    background: hsl(var(--primary));
+    box-shadow: var(--glow-green);
+    transition: width 0.3s ease;
+  }
+
+  /* Wireframe Icon Container */
+  .wireframe-icon {
+    border: 1px solid hsl(var(--border));
+    background: transparent;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  /* Data Sheet Card */
+  .data-sheet {
+    position: relative;
+    border: 1px solid hsl(var(--border));
+    background: hsl(var(--card));
+  }
+
+  .data-sheet .dimensions {
+    opacity: 0;
+    transition: opacity 0.2s ease;
+    font-size: 10px;
+    color: hsl(var(--muted-foreground));
+  }
+
+  .data-sheet:hover .dimensions {
+    opacity: 1;
+  }
+
+  /* Floating Formula Animation */
+  @keyframes float-formula {
+    0%, 100% {
+      opacity: 0.1;
+      transform: translateY(0);
+    }
+    50% {
+      opacity: 0.3;
+      transform: translateY(-10px);
+    }
+  }
+
+  .floating-formula {
+    animation: float-formula 8s ease-in-out infinite;
+  }
+
+  /* Pulse Animation for Nodes */
+  @keyframes node-pulse {
+    0%, 100% {
+      opacity: 0.5;
+    }
+    50% {
+      opacity: 1;
+      box-shadow: 0 0 10px hsl(var(--primary) / 0.5);
+    }
+  }
+
+  .node-pulse {
+    animation: node-pulse 2s ease-in-out infinite;
+  }
+
+  /* Loading Animation */
+  @keyframes loading-bar {
+    0% { width: 0%; }
+    100% { width: 100%; }
+  }
+
+  .loading-animation {
+    animation: loading-bar 2s ease-out forwards;
+  }
+}
+
+/* Utility for monospace */
+.font-mono {
+  font-family: 'JetBrains Mono', monospace;
 }

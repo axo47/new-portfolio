@@ -1,13 +1,46 @@
-// Update this page (the content is just a fallback if you fail to update the page)
+import { useState, useEffect } from "react";
+import { AnimatePresence } from "framer-motion";
+import { BackgroundGrid } from "@/components/BackgroundGrid";
+import { LoadingScreen } from "@/components/LoadingScreen";
+import { HeroSection } from "@/components/HeroSection";
+import { TechStackSection } from "@/components/TechStackSection";
+import { ProjectsSection } from "@/components/ProjectsSection";
+import { ContactSection } from "@/components/ContactSection";
 
 const Index = () => {
+  const [isLoading, setIsLoading] = useState(true);
+
+  useEffect(() => {
+    // Minimum loading time for effect
+    const timer = setTimeout(() => {
+      // Loading screen handles its own completion
+    }, 2000);
+
+    return () => clearTimeout(timer);
+  }, []);
+
   return (
-    <div className="flex min-h-screen items-center justify-center bg-background">
-      <div className="text-center">
-        <h1 className="mb-4 text-4xl font-bold">Welcome to Your Blank App</h1>
-        <p className="text-xl text-muted-foreground">Start building your amazing project here!</p>
-      </div>
-    </div>
+    <main className="relative min-h-screen bg-background overflow-x-hidden">
+      {/* Loading Screen */}
+      <AnimatePresence>
+        {isLoading && (
+          <LoadingScreen onComplete={() => setIsLoading(false)} />
+        )}
+      </AnimatePresence>
+
+      {/* Background */}
+      <BackgroundGrid />
+
+      {/* Main Content */}
+      {!isLoading && (
+        <>
+          <HeroSection />
+          <TechStackSection />
+          <ProjectsSection />
+          <ContactSection />
+        </>
+      )}
+    </main>
   );
 };
 
