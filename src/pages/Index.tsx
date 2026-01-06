@@ -1,8 +1,8 @@
 import { useState, useEffect } from "react";
 import { AnimatePresence } from "framer-motion";
-import { BackgroundGrid } from "@/components/BackgroundGrid";
+import { MathematicalBackground } from "@/components/MathematicalBackground";
 import { LoadingScreen } from "@/components/LoadingScreen";
-import { HeroSection } from "@/components/HeroSection";
+import { InteractiveTerminal } from "@/components/InteractiveTerminal";
 import { TechStackSection } from "@/components/TechStackSection";
 import { ProjectsSection } from "@/components/ProjectsSection";
 import { ContactSection } from "@/components/ContactSection";
@@ -28,13 +28,13 @@ const Index = () => {
         )}
       </AnimatePresence>
 
-      {/* Background */}
-      <BackgroundGrid />
+      {/* Mathematical Background */}
+      <MathematicalBackground />
 
       {/* Main Content */}
       {!isLoading && (
         <>
-          <HeroSection />
+          <InteractiveTerminal />
           <TechStackSection />
           <ProjectsSection />
           <ContactSection />

@@ -119,9 +119,15 @@
       0deg,
       transparent,
       transparent 2px,
-      hsl(120 100% 50% / 0.03) 2px,
-      hsl(120 100% 50% / 0.03) 4px
+      hsl(120 100% 50% / 0.02) 2px,
+      hsl(120 100% 50% / 0.02) 4px
     );
+    animation: scanlines 0.1s linear infinite;
+  }
+
+  @keyframes scanlines {
+    0% { background-position: 0 0; }
+    100% { background-position: 0 4px; }
   }
 
   /* Screen flicker animation */
@@ -134,7 +140,32 @@
     height: 100%;
     pointer-events: none;
     z-index: 9998;
-    background: radial-gradient(ellipse at center, transparent 0%, hsl(0 0% 0% / 0.3) 100%);
+    background: radial-gradient(ellipse at center, transparent 0%, hsl(0 0% 0% / 0.4) 100%);
+    animation: flicker 0.15s infinite;
+  }
+
+  @keyframes flicker {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0.98; }
+    75% { opacity: 0.99; }
+  }
+
+  /* CRT screen curvature effect */
+  body {
+    position: relative;
+  }
+
+  /* Subtle screen glow */
+  html::before {
+    content: '';
+    position: fixed;
+    top: -50%;
+    left: -50%;
+    width: 200%;
+    height: 200%;
+    pointer-events: none;
+    z-index: -1;
+    background: radial-gradient(ellipse at center, hsl(120 100% 50% / 0.03) 0%, transparent 50%);
   }
 }
 
@@ -159,6 +190,25 @@
       linear-gradient(hsl(var(--grid-color)) 1px, transparent 1px),
       linear-gradient(90deg, hsl(var(--grid-color)) 1px, transparent 1px);
     background-size: 40px 40px;
+  }
+
+  /* Terminal body scrollbar */
+  .terminal-body::-webkit-scrollbar {
+    width: 8px;
+  }
+
+  .terminal-body::-webkit-scrollbar-track {
+    background: hsl(var(--muted));
+    border: 1px solid hsl(var(--border));
+  }
+
+  .terminal-body::-webkit-scrollbar-thumb {
+    background: hsl(var(--primary) / 0.3);
+    border: 1px solid hsl(var(--border));
+  }
+
+  .terminal-body::-webkit-scrollbar-thumb:hover {
+    background: hsl(var(--primary) / 0.5);
   }
 
   /* Blueprint Container with Corner Markers */
