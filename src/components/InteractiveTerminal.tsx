@@ -7,6 +7,8 @@ interface TerminalLine {
   prompt?: string;
 }
 
+const QUICK_COMMANDS = ["ls", "fastfetch", "help", "clear"];
+
 const FASTFETCH_ASCII = `
    █████╗ ██╗      ███████╗██╗   ██╗███████╗████████╗███████╗███╗   ███╗
   ██╔══██╗██║      ██╔════╝╚██╗ ██╔╝██╔════╝╚══██╔══╝██╔════╝████╗ ████║
@@ -17,27 +19,27 @@ const FASTFETCH_ASCII = `
 `;
 
 const SYSTEM_SPECS = `
-  ┌────────────────────────────────────────────────────────────────┐
-  │  OS           │  MathKernel v2.0 (Neural Architecture)        │
-  │  Host         │  AI-WORKSTATION-7                             │
-  │  Kernel       │  TensorFlow/PyTorch Hybrid Core               │
-  │  Uptime       │  2,847 days (continuous operation)            │
-  │  Shell        │  neural-sh 4.2.1                              │
-  │  CPU          │  Neural Processor x86_64 (128 cores)          │
-  │  GPU          │  NVIDIA A100 x8 (Tensor Accelerated)          │
-  │  Memory       │  64TB Tensors / 512GB System                  │
-  │  Network      │  Distributed Mesh (10Gbps backbone)           │
-  │  Status       │  ■ OPERATIONAL                                │
-  └────────────────────────────────────────────────────────────────┘
+  ┌────────────────────────────────────────────────────┐
+  │  OS       │  Poly-OS v7.0 (Neural Architecture)   │
+  │  Host     │  AI-WORKSTATION-7                     │
+  │  Kernel   │  AI-Math-Engine (Hybrid Core)         │
+  │  Uptime   │  99.9% (continuous operation)         │
+  │  Shell    │  neural-sh 4.2.1                      │
+  │  CPU      │  Neural Processor x86_64 (128 cores)  │
+  │  GPU      │  NVIDIA A100 x8 (Tensor Accelerated)  │
+  │  Memory   │  64TB Tensors / 512GB System          │
+  │  Network  │  Distributed Mesh (10Gbps backbone)   │
+  │  Status   │  ■ OPERATIONAL                        │
+  └────────────────────────────────────────────────────┘
 `;
 
 const LS_OUTPUT = `
-  total 5
-  drwxr-xr-x  2 guest ai-system  4096 Jan  6 12:00 about/
-  drwxr-xr-x  4 guest ai-system  8192 Jan  6 12:00 projects/
-  drwxr-xr-x  3 guest ai-system  4096 Jan  6 12:00 skills/
-  -rw-r--r--  1 guest ai-system  2048 Jan  6 12:00 contact.txt
-  -rw-r--r--  1 guest ai-system  1024 Jan  6 12:00 resume.pdf
+  total 6
+  drwxr-xr-x  2 guest ai-system  4096 Jan  8 12:00 /about
+  drwxr-xr-x  3 guest ai-system  4096 Jan  8 12:00 /experience
+  drwxr-xr-x  4 guest ai-system  8192 Jan  8 12:00 /projects
+  drwxr-xr-x  3 guest ai-system  4096 Jan  8 12:00 /skills
+  -rw-r--r--  1 guest ai-system  2048 Jan  8 12:00 /contact
 `;
 
 const HELP_OUTPUT = `
@@ -207,7 +209,7 @@ export function InteractiveTerminal() {
   };
 
   return (
-    <section className="relative min-h-screen flex items-center justify-center px-6 py-24">
+    <section className="relative min-h-[80vh] md:min-h-screen flex items-center justify-center px-4 md:px-6 py-12 md:py-24">
       <div className="max-w-4xl w-full">
         {/* Terminal Window */}
         <motion.div
@@ -241,7 +243,7 @@ export function InteractiveTerminal() {
           {/* Terminal Body */}
           <div
             ref={terminalRef}
-            className="p-6 h-[500px] overflow-y-auto cursor-text terminal-body"
+            className="p-4 md:p-6 h-[350px] md:h-[450px] overflow-y-auto cursor-text terminal-body"
           >
             {/* History */}
             {history.map((line, index) => (
@@ -300,15 +302,37 @@ export function InteractiveTerminal() {
           </div>
 
           {/* Terminal Footer */}
-          <div className="px-4 py-2 border-t border-border bg-secondary/30 font-mono text-xs text-muted-foreground flex justify-between">
-            <span>[CTRL+C: interrupt] [↑↓: history]</span>
+          <div className="px-4 py-2 border-t border-border bg-secondary/30 font-mono text-[10px] md:text-xs text-muted-foreground flex justify-between">
+            <span className="hidden sm:inline">[CTRL+C: interrupt] [↑↓: history]</span>
+            <span className="sm:hidden">[TAP BUTTONS BELOW]</span>
             <span>TTY: /dev/pts/0</span>
           </div>
         </motion.div>
 
-        {/* Hint */}
+        {/* Mobile Quick Command Bar */}
         <motion.div
-          className="text-center mt-8 font-mono text-xs text-muted-foreground"
+          className="mt-4 flex flex-wrap gap-2 justify-center md:hidden"
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ delay: 0.5 }}
+        >
+          {QUICK_COMMANDS.map((cmd) => (
+            <button
+              key={cmd}
+              onClick={() => {
+                processCommand(cmd);
+                setCurrentInput("");
+              }}
+              className="px-3 py-2 border border-primary bg-primary/10 font-mono text-xs text-primary active:bg-primary active:text-primary-foreground transition-colors"
+            >
+              {cmd}
+            </button>
+          ))}
+        </motion.div>
+
+        {/* Hint - Desktop only */}
+        <motion.div
+          className="text-center mt-8 font-mono text-xs text-muted-foreground hidden md:block"
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           transition={{ delay: 1 }}
@@ -321,7 +345,7 @@ export function InteractiveTerminal() {
 
         {/* Scroll Indicator */}
         <motion.div
-          className="flex flex-col items-center mt-8 font-mono text-xs text-muted-foreground"
+          className="flex flex-col items-center mt-6 md:mt-8 font-mono text-xs text-muted-foreground"
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           transition={{ delay: 1.5 }}

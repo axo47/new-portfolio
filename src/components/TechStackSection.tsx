@@ -94,15 +94,13 @@ function KubernetesIcon() {
   );
 }
 
-function AWSIcon() {
+function AzureIcon() {
   return (
     <svg className="w-8 h-8" viewBox="0 0 32 32" fill="none" stroke="currentColor" strokeWidth="0.8">
-      <path d="M4 20 L16 8 L28 20" />
-      <path d="M8 18 L16 12 L24 18" />
-      <line x1="4" y1="24" x2="28" y2="24" />
-      <circle cx="10" cy="24" r="1.5" />
-      <circle cx="16" cy="24" r="1.5" />
-      <circle cx="22" cy="24" r="1.5" />
+      <path d="M8 24 L18 6 L24 14 L14 26 Z" />
+      <path d="M14 26 L4 26 L18 6" />
+      <line x1="18" y1="14" x2="28" y2="14" />
+      <circle cx="28" cy="14" r="2" />
     </svg>
   );
 }
@@ -179,7 +177,7 @@ const techStack: TechModule[] = [
     items: [
       { name: "DOCKER", label: "Containerization", icon: DockerIcon },
       { name: "KUBERNETES", label: "Orchestration", icon: KubernetesIcon },
-      { name: "AWS", label: "Cloud Platform", icon: AWSIcon },
+      { name: "AZURE", label: "Cloud Platform", icon: AzureIcon },
       { name: "TERRAFORM", label: "IaC", icon: TerraformIcon },
     ],
   },
@@ -253,7 +251,7 @@ const categoryIcons: Record<string, () => JSX.Element> = {
 
 export function TechStackSection() {
   return (
-    <section className="relative py-24 px-6">
+    <section className="relative py-12 md:py-24 px-4 md:px-6">
       <div className="max-w-6xl mx-auto">
         {/* Section Header */}
         <motion.div

@@ -2,7 +2,9 @@ import { useState, useEffect } from "react";
 import { AnimatePresence } from "framer-motion";
 import { MathematicalBackground } from "@/components/MathematicalBackground";
 import { LoadingScreen } from "@/components/LoadingScreen";
+import { IdentityVerification } from "@/components/IdentityVerification";
 import { InteractiveTerminal } from "@/components/InteractiveTerminal";
+import { GameResume } from "@/components/GameResume";
 import { TechStackSection } from "@/components/TechStackSection";
 import { ProjectsSection } from "@/components/ProjectsSection";
 import { ContactSection } from "@/components/ContactSection";
@@ -34,7 +36,9 @@ const Index = () => {
       {/* Main Content */}
       {!isLoading && (
         <>
+          <IdentityVerification />
           <InteractiveTerminal />
+          <GameResume />
           <TechStackSection />
           <ProjectsSection />
           <ContactSection />
