@@ -20,44 +20,44 @@ interface Project {
 const projects: Project[] = [
   {
     id: "PRJ-001",
-    title: "Neural Architecture Search Engine",
+    title: "Solver Detector",
     type: "AI/ML SYSTEM",
-    classification: "CONFIDENTIAL",
-    version: "v2.4.1",
-    description: "Automated neural network architecture optimization using evolutionary algorithms and reinforcement learning. Achieved 40% reduction in model design time.",
+    classification: "PUBLIC",
+    version: "v1.2.0",
+    description: "AI-powered system for detecting and classifying mathematical problem solvers. Utilizes deep learning for pattern recognition and optimization algorithm identification.",
     specs: {
-      stack: ["Python", "PyTorch", "Ray"],
-      metrics: "10M+ architectures evaluated",
+      stack: ["Python", "PyTorch", "OpenCV"],
+      metrics: "95% accuracy",
       status: "DEPLOYED",
-      lastUpdated: "2024-12-15",
+      lastUpdated: "2025-01-05",
     },
     dimensions: { width: 1920, height: 1080 },
   },
   {
     id: "PRJ-002",
-    title: "Distributed Training Pipeline",
-    type: "INFRASTRUCTURE",
-    classification: "INTERNAL",
-    version: "v3.1.0",
-    description: "Scalable ML training infrastructure supporting multi-GPU and multi-node training with automatic checkpointing and fault tolerance.",
+    title: "Latin Hypercube Optimization",
+    type: "RESEARCH",
+    classification: "ACADEMIC",
+    version: "v2.0.0",
+    description: "Advanced sampling optimization using Latin Hypercube methods for high-dimensional parameter spaces. Reduces computational cost while maintaining statistical coverage.",
     specs: {
-      stack: ["Kubernetes", "NVIDIA NCCL", "S3"],
-      metrics: "100+ GPU clusters",
+      stack: ["Python", "NumPy", "SciPy"],
+      metrics: "40% efficiency gain",
       status: "PRODUCTION",
-      lastUpdated: "2024-11-28",
+      lastUpdated: "2025-01-03",
     },
     dimensions: { width: 1600, height: 900 },
   },
   {
     id: "PRJ-003",
-    title: "Real-time Anomaly Detection",
-    type: "ANALYTICS PLATFORM",
-    classification: "RESTRICTED",
-    version: "v1.8.3",
-    description: "Stream processing system for detecting anomalies in high-frequency trading data using transformer-based models.",
+    title: "Ultimate Website (Tetris)",
+    type: "WEB APPLICATION",
+    classification: "PUBLIC",
+    version: "v3.1.0",
+    description: "A fully-featured Tetris implementation with modern web technologies. Includes leaderboards, multiplayer mode, and customizable themes.",
     specs: {
-      stack: ["Kafka", "Flink", "TensorRT"],
-      metrics: "<10ms latency",
+      stack: ["React", "TypeScript", "Canvas"],
+      metrics: "60 FPS gameplay",
       status: "ACTIVE",
       lastUpdated: "2025-01-02",
     },
@@ -65,16 +65,16 @@ const projects: Project[] = [
   },
   {
     id: "PRJ-004",
-    title: "Conversational AI Framework",
-    type: "NLP SYSTEM",
-    classification: "PUBLIC",
-    version: "v4.0.0",
-    description: "Enterprise-grade conversational AI platform with multi-turn dialogue management and context-aware response generation.",
+    title: "Availability Checker",
+    type: "AUTOMATION TOOL",
+    classification: "INTERNAL",
+    version: "v1.5.0",
+    description: "Automated system for monitoring and checking service availability across distributed infrastructure. Real-time alerts and status dashboards.",
     specs: {
-      stack: ["LangChain", "OpenAI", "Redis"],
-      metrics: "1M+ conversations/day",
-      status: "SCALING",
-      lastUpdated: "2025-01-05",
+      stack: ["Node.js", "Docker", "Redis"],
+      metrics: "<100ms response",
+      status: "DEPLOYED",
+      lastUpdated: "2025-01-01",
     },
     dimensions: { width: 1280, height: 720 },
   },
@@ -84,7 +84,7 @@ export function ProjectsSection() {
   const [hoveredId, setHoveredId] = useState<string | null>(null);
 
   return (
-    <section className="relative py-24 px-6">
+    <section className="relative py-12 md:py-24 px-4 md:px-6">
       <div className="max-w-6xl mx-auto">
         {/* Section Header */}
         <motion.div
