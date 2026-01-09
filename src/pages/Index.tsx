@@ -1,49 +1,28 @@
-import { useState, useEffect } from "react";
-import { AnimatePresence } from "framer-motion";
-import { MathematicalBackground } from "@/components/MathematicalBackground";
-import { LoadingScreen } from "@/components/LoadingScreen";
-import { IdentityVerification } from "@/components/IdentityVerification";
-import { InteractiveTerminal } from "@/components/InteractiveTerminal";
-import { CareerNodeMap } from "@/components/CareerNodeMap";
-import { TechStackSection } from "@/components/TechStackSection";
-import { ProjectsSection } from "@/components/ProjectsSection";
-import { ContactSection } from "@/components/ContactSection";
+import { MathManifoldBackground } from "@/components/MathManifoldBackground";
+import { Navigation } from "@/components/Navigation";
+import { HeroCard } from "@/components/HeroCard";
+import { KnowledgeGraph } from "@/components/KnowledgeGraph";
+import { ExperienceSection } from "@/components/ExperienceSection";
+import { ProjectsGrid } from "@/components/ProjectsGrid";
+import { ApproachCard } from "@/components/ApproachCard";
+import { ContactCard } from "@/components/ContactCard";
 
 const Index = () => {
-  const [isLoading, setIsLoading] = useState(true);
-
-  useEffect(() => {
-    // Minimum loading time for effect
-    const timer = setTimeout(() => {
-      // Loading screen handles its own completion
-    }, 2000);
-
-    return () => clearTimeout(timer);
-  }, []);
-
   return (
     <main className="relative min-h-screen bg-background overflow-x-hidden">
-      {/* Loading Screen */}
-      <AnimatePresence>
-        {isLoading && (
-          <LoadingScreen onComplete={() => setIsLoading(false)} />
-        )}
-      </AnimatePresence>
+      {/* Background */}
+      <MathManifoldBackground />
 
-      {/* Mathematical Background */}
-      <MathematicalBackground />
+      {/* Navigation */}
+      <Navigation />
 
       {/* Main Content */}
-      {!isLoading && (
-        <>
-          <IdentityVerification />
-          <InteractiveTerminal />
-          <CareerNodeMap />
-          <TechStackSection />
-          <ProjectsSection />
-          <ContactSection />
-        </>
-      )}
+      <HeroCard />
+      <KnowledgeGraph />
+      <ExperienceSection />
+      <ProjectsGrid />
+      <ApproachCard />
+      <ContactCard />
     </main>
   );
 };
