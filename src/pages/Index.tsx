@@ -4,7 +4,7 @@ import { MathematicalBackground } from "@/components/MathematicalBackground";
 import { LoadingScreen } from "@/components/LoadingScreen";
 import { IdentityVerification } from "@/components/IdentityVerification";
 import { InteractiveTerminal } from "@/components/InteractiveTerminal";
-import { GameResume } from "@/components/GameResume";
+import { CareerNodeMap } from "@/components/CareerNodeMap";
 import { TechStackSection } from "@/components/TechStackSection";
 import { ProjectsSection } from "@/components/ProjectsSection";
 import { ContactSection } from "@/components/ContactSection";
@@ -38,7 +38,7 @@ const Index = () => {
         <>
           <IdentityVerification />
           <InteractiveTerminal />
-          <GameResume />
+          <CareerNodeMap />
           <TechStackSection />
           <ProjectsSection />
           <ContactSection />

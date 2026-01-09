@@ -20,8 +20,8 @@ const FASTFETCH_ASCII = `
 
 const SYSTEM_SPECS = `
   ┌────────────────────────────────────────────────────┐
-  │  OS       │  Poly-OS v7.0 (Neural Architecture)   │
-  │  Host     │  AI-WORKSTATION-7                     │
+  │  OS       │  Poly-OS v8.0 (Neural Architecture)   │
+  │  User     │  K. Ezzedine                          │
   │  Kernel   │  AI-Math-Engine (Hybrid Core)         │
   │  Uptime   │  99.9% (continuous operation)         │
   │  Shell    │  neural-sh 4.2.1                      │

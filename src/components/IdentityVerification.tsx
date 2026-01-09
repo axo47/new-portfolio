@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import { motion } from "framer-motion";
 
-const TARGET_NAME = "YOUR NAME";
+const TARGET_NAME = "KEVIN EZZEDINE";
 const SHA256_LENGTH = 64;
 const CHARS = "0123456789abcdef";
 
