@@ -6,12 +6,16 @@ import { ExperienceSection } from "@/components/ExperienceSection";
 import { ProjectsGrid } from "@/components/ProjectsGrid";
 import { ApproachCard } from "@/components/ApproachCard";
 import { ContactCard } from "@/components/ContactCard";
+import { DynamicLightOrbs } from "@/components/DynamicLightOrbs";
+import { NoiseOverlay } from "@/components/NoiseOverlay";
 
 const Index = () => {
   return (
     <main className="relative min-h-screen bg-background overflow-x-hidden">
-      {/* Background */}
+      {/* Background Layers */}
       <MathManifoldBackground />
+      <DynamicLightOrbs />
+      <NoiseOverlay />
 
       {/* Navigation */}
       <Navigation />
