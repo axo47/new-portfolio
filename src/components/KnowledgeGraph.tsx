@@ -1,4 +1,4 @@
-import { motion, useMotionValue, useSpring } from "framer-motion";
+import { motion } from "framer-motion";
 import { useState, useEffect, useCallback, useMemo } from "react";
 
 interface SkillNode {
@@ -30,20 +30,25 @@ const skillNodesData: SkillNode[] = [
   { id: "xai", label: "Explainable AI", category: "overlap", connections: ["ai"] },
 ];
 
-// Force-directed layout positions (pre-calculated for elegance)
+// Better spaced positions - organized in clear zones
 const nodePositions: Record<string, { x: number; y: number }> = {
-  math: { x: 18, y: 50 },
-  ai: { x: 82, y: 50 },
-  linalg: { x: 12, y: 22 },
-  prob: { x: 8, y: 50 },
-  calc: { x: 12, y: 78 },
-  optim: { x: 28, y: 82 },
-  dl: { x: 88, y: 22 },
-  ml: { x: 92, y: 50 },
-  cv: { x: 88, y: 78 },
-  nlp: { x: 72, y: 85 },
-  rl: { x: 50, y: 28 },
-  xai: { x: 50, y: 72 },
+  // Left side - Math cluster
+  math: { x: 22, y: 50 },
+  linalg: { x: 8, y: 20 },
+  prob: { x: 8, y: 45 },
+  calc: { x: 8, y: 70 },
+  optim: { x: 22, y: 85 },
+  
+  // Right side - AI cluster
+  ai: { x: 78, y: 50 },
+  dl: { x: 92, y: 20 },
+  ml: { x: 92, y: 45 },
+  cv: { x: 92, y: 70 },
+  nlp: { x: 78, y: 85 },
+  
+  // Center - Overlap/Bridge nodes
+  rl: { x: 50, y: 30 },
+  xai: { x: 50, y: 70 },
 };
 
 const getNodeColor = (category: string) => {
@@ -134,7 +139,7 @@ export const KnowledgeGraph = () => {
 
         {/* Graph Card */}
         <motion.div
-          className="glass-card glass-card-shimmer p-6 md:p-10 relative"
+          className="glass-card glass-card-shimmer p-6 md:p-10 relative overflow-hidden"
           initial={{ opacity: 0, y: 40 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
@@ -156,21 +161,21 @@ export const KnowledgeGraph = () => {
           </div>
 
           {/* Graph Container */}
-          <div className="relative aspect-[16/10] md:aspect-[2/1] select-none">
+          <div className="relative h-[400px] md:h-[500px] select-none">
             {/* SVG for connection lines */}
             <svg 
-              className="absolute inset-0 w-full h-full" 
+              className="absolute inset-0 w-full h-full pointer-events-none" 
               viewBox="0 0 100 100" 
-              preserveAspectRatio="xMidYMid meet"
+              preserveAspectRatio="none"
             >
               <defs>
                 <linearGradient id="lineGradientActive" x1="0%" y1="0%" x2="100%" y2="0%">
-                  <stop offset="0%" stopColor="hsl(28, 65%, 58%)" stopOpacity="0.8" />
-                  <stop offset="50%" stopColor="hsl(280, 65%, 55%)" stopOpacity="0.9" />
-                  <stop offset="100%" stopColor="hsl(210, 100%, 60%)" stopOpacity="0.8" />
+                  <stop offset="0%" stopColor="hsl(28, 65%, 58%)" stopOpacity="1" />
+                  <stop offset="50%" stopColor="hsl(280, 65%, 55%)" stopOpacity="1" />
+                  <stop offset="100%" stopColor="hsl(210, 100%, 60%)" stopOpacity="1" />
                 </linearGradient>
-                <filter id="glow">
-                  <feGaussianBlur stdDeviation="0.5" result="coloredBlur"/>
+                <filter id="glowLine" x="-50%" y="-50%" width="200%" height="200%">
+                  <feGaussianBlur stdDeviation="0.8" result="coloredBlur"/>
                   <feMerge>
                     <feMergeNode in="coloredBlur"/>
                     <feMergeNode in="SourceGraphic"/>
@@ -188,20 +193,19 @@ export const KnowledgeGraph = () => {
                     y1={y1}
                     x2={x2}
                     y2={y2}
-                    stroke={isActive ? "url(#lineGradientActive)" : "hsl(210, 20%, 25%)"}
-                    strokeWidth={isActive ? 0.6 : 0.25}
-                    strokeOpacity={activeNode ? (isActive ? 1 : 0.15) : 0.4}
-                    filter={isActive ? "url(#glow)" : undefined}
+                    stroke={isActive ? "url(#lineGradientActive)" : "hsl(210, 20%, 35%)"}
+                    strokeWidth={isActive ? 0.5 : 0.2}
+                    strokeOpacity={activeNode ? (isActive ? 1 : 0.2) : 0.5}
+                    filter={isActive ? "url(#glowLine)" : undefined}
                     initial={{ pathLength: 0, opacity: 0 }}
                     animate={{ 
                       pathLength: mounted ? 1 : 0, 
-                      opacity: activeNode ? (isActive ? 1 : 0.15) : 0.4 
+                      opacity: activeNode ? (isActive ? 1 : 0.2) : 0.5 
                     }}
                     transition={{ 
                       pathLength: { duration: 1.5, delay: i * 0.05 },
                       opacity: { duration: 0.3 }
                     }}
-                    className={!isActive && !activeNode ? "animate-pulse-thread" : ""}
                   />
                 );
               })}
@@ -220,12 +224,16 @@ export const KnowledgeGraph = () => {
               return (
                 <motion.div
                   key={node.id}
-                  className="absolute transform -translate-x-1/2 -translate-y-1/2 cursor-pointer group"
-                  style={{ left: `${pos.x}%`, top: `${pos.y}%` }}
+                  className="absolute cursor-pointer z-10"
+                  style={{ 
+                    left: `${pos.x}%`, 
+                    top: `${pos.y}%`,
+                    transform: 'translate(-50%, -50%)'
+                  }}
                   initial={{ scale: 0, opacity: 0 }}
                   animate={{ 
                     scale: mounted ? 1 : 0, 
-                    opacity: shouldDim ? 0.3 : 1 
+                    opacity: shouldDim ? 0.35 : 1 
                   }}
                   transition={{ 
                     scale: { delay: i * 0.05 + 0.5, duration: 0.5, type: "spring", stiffness: 200 },
@@ -236,41 +244,38 @@ export const KnowledgeGraph = () => {
                 >
                   {/* Outer Glow Ring */}
                   <motion.div
-                    className="absolute rounded-full"
+                    className="absolute rounded-full pointer-events-none"
                     style={{
-                      width: isCore ? 70 : 50,
-                      height: isCore ? 70 : 50,
+                      width: isCore ? 80 : 60,
+                      height: isCore ? 80 : 60,
                       left: '50%',
                       top: '50%',
-                      x: '-50%',
-                      y: '-50%',
-                      background: `radial-gradient(circle, ${color.glow}40 0%, transparent 70%)`,
+                      transform: 'translate(-50%, -50%)',
+                      background: `radial-gradient(circle, ${color.glow}30 0%, transparent 70%)`,
                     }}
                     animate={{
-                      scale: isActive ? 1.3 : 1,
-                      opacity: isActive ? 1 : 0.5,
+                      scale: isActive ? 1.5 : 1,
+                      opacity: isActive ? 1 : 0.6,
                     }}
                     transition={{ duration: 0.3 }}
                   />
 
                   {/* Inner Glowing Core */}
                   <motion.div
-                    className={`relative rounded-full ${
-                      node.category === 'math' ? 'node-glow-copper' :
-                      node.category === 'ai' ? 'node-glow-blue' : 'node-glow-purple'
-                    }`}
+                    className="relative rounded-full mx-auto"
                     style={{
-                      width: isCore ? 24 : 14,
-                      height: isCore ? 24 : 14,
+                      width: isCore ? 20 : 12,
+                      height: isCore ? 20 : 12,
                       background: `radial-gradient(circle, ${color.main} 0%, ${color.main}90 50%, ${color.main}40 100%)`,
+                      boxShadow: `0 0 12px ${color.glow}80, 0 0 24px ${color.glow}40`,
                     }}
                     animate={{
-                      scale: isActive ? 1.4 : shouldHighlight ? 1.15 : 1,
+                      scale: isActive ? 1.5 : shouldHighlight ? 1.2 : 1,
                       boxShadow: isActive 
                         ? `0 0 20px ${color.glow}, 0 0 40px ${color.glow}80, 0 0 60px ${color.glow}40`
                         : shouldHighlight
                         ? `0 0 15px ${color.glow}80, 0 0 30px ${color.glow}40`
-                        : `0 0 10px ${color.glow}60, 0 0 20px ${color.glow}30`,
+                        : `0 0 12px ${color.glow}80, 0 0 24px ${color.glow}40`,
                     }}
                     transition={{ duration: 0.3, type: "spring", stiffness: 300 }}
                   />
@@ -278,19 +283,20 @@ export const KnowledgeGraph = () => {
                   {/* Label */}
                   <motion.div
                     className={`
-                      absolute left-1/2 -translate-x-1/2 whitespace-nowrap px-2.5 py-1 rounded-lg
-                      ${isCore ? 'top-full mt-3 text-xs md:text-sm font-semibold' : 'top-full mt-2 text-[10px] md:text-xs'}
-                      transition-all duration-300
+                      absolute left-1/2 whitespace-nowrap px-3 py-1.5 rounded-lg text-center
+                      ${isCore ? 'top-full mt-4 text-sm font-semibold' : 'top-full mt-3 text-xs font-medium'}
                     `}
                     style={{
-                      background: isActive ? 'hsl(222 24% 16% / 0.95)' : 'transparent',
-                      color: shouldHighlight ? 'hsl(210 20% 95%)' : 'hsl(210 12% 55%)',
-                      fontWeight: isActive ? 600 : isCore ? 500 : 400,
+                      transform: 'translateX(-50%)',
+                      background: isActive ? 'hsl(222 24% 12% / 0.95)' : 'hsl(222 24% 10% / 0.8)',
+                      border: isActive ? '1px solid hsl(210 20% 30%)' : '1px solid transparent',
+                      color: shouldHighlight ? 'hsl(0 0% 100%)' : shouldDim ? 'hsl(210 12% 45%)' : 'hsl(210 12% 75%)',
                     }}
                     animate={{
-                      opacity: shouldDim ? 0.3 : (isActive || isCore ? 1 : 0.8),
-                      y: isActive ? 2 : 0,
+                      opacity: shouldDim ? 0.4 : 1,
+                      y: isActive ? 4 : 0,
                     }}
+                    transition={{ duration: 0.2 }}
                   >
                     {node.label}
                   </motion.div>
@@ -301,7 +307,7 @@ export const KnowledgeGraph = () => {
 
           {/* Hint */}
           <motion.p 
-            className="text-center text-muted-foreground text-sm mt-10"
+            className="text-center text-muted-foreground/80 text-sm mt-8"
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             transition={{ delay: 2 }}
