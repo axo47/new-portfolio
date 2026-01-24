@@ -110,7 +110,7 @@ export const HeroCard = () => {
                 KEVIN
               </span>
               <span className="block text-5xl md:text-7xl lg:text-[6.5rem] text-foreground leading-[0.9] mt-2">
-                DZZEDINE
+                EZZEDINE
               </span>
             </motion.h1>
 

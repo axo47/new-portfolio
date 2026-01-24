@@ -46,7 +46,7 @@ export const ContactCard = () => {
               transition={{ delay: 0.2 }}
             >
               <a 
-                href="mailto:kevin.dzzedine@email.com" 
+                href="mailto:kevin.ezzedine@email.com" 
                 className="glass-card glass-card-hover px-6 py-4 flex items-center gap-3 group"
               >
                 <Mail className="w-5 h-5 text-primary" />
@@ -55,7 +55,7 @@ export const ContactCard = () => {
               </a>
               
               <a 
-                href="https://linkedin.com/in/kevindzzedine" 
+                href="https://linkedin.com/in/kevinezzedine" 
                 target="_blank"
                 rel="noopener noreferrer"
                 className="glass-card glass-card-hover px-6 py-4 flex items-center gap-3 group"
@@ -66,7 +66,7 @@ export const ContactCard = () => {
               </a>
               
               <a 
-                href="https://github.com/kevindzzedine" 
+                href="https://github.com/kevinezzedine" 
                 target="_blank"
                 rel="noopener noreferrer"
                 className="glass-card glass-card-hover px-6 py-4 flex items-center gap-3 group"
@@ -84,7 +84,7 @@ export const ContactCard = () => {
               viewport={{ once: true }}
               transition={{ delay: 0.3 }}
             >
-              <a href="mailto:kevin.dzzedine@email.com" className="btn-premium inline-flex items-center gap-2">
+              <a href="mailto:kevin.ezzedine@email.com" className="btn-premium inline-flex items-center gap-2">
                 Start a Conversation
                 <ArrowUpRight className="w-4 h-4" />
               </a>
@@ -99,7 +99,7 @@ export const ContactCard = () => {
           whileInView={{ opacity: 1 }}
           viewport={{ once: true }}
         >
-          <p>© 2024 Kevin Dzzedine. Designed with precision.</p>
+          <p>© 2024 Kevin Ezzedine. Designed with precision.</p>
         </motion.footer>
       </div>
     </section>
