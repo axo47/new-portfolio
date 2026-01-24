@@ -1,7 +1,7 @@
 import { MathManifoldBackground } from "@/components/MathManifoldBackground";
 import { Navigation } from "@/components/Navigation";
 import { HeroCard } from "@/components/HeroCard";
-import { MathAINexus } from "@/components/MathAINexus";
+import { NexusOfReason } from "@/components/NexusOfReason";
 import { ExperienceSection } from "@/components/ExperienceSection";
 import { ProjectsGrid } from "@/components/ProjectsGrid";
 import { ApproachCard } from "@/components/ApproachCard";
@@ -22,7 +22,7 @@ const Index = () => {
 
       {/* Main Content */}
       <HeroCard />
-      <MathAINexus />
+      <NexusOfReason />
       <ExperienceSection />
       <ProjectsGrid />
       <ApproachCard />
