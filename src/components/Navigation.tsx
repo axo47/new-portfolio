@@ -36,7 +36,7 @@ export const Navigation = () => {
         <div className="max-w-6xl mx-auto flex items-center justify-between">
           {/* Logo */}
           <a href="#" className="text-xl font-semibold gradient-text">
-            KD
+            KE
           </a>
 
           {/* Desktop Navigation */}
