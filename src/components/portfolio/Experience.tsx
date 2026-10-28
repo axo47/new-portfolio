@@ -1,7 +1,7 @@
 import { motion } from "framer-motion";
 import { experiences, ui } from "@/data/content";
 import { useLang } from "@/hooks/useLang";
-import { RichText, Reveal, SectionLabel, pop, slideIn, stagger } from "./shared";
+import { RichText, Reveal, SectionLabel, pop, slideIn , Show } from "./shared";
 
 export const Experience = () => {
   const { t } = useLang();
@@ -14,13 +14,7 @@ export const Experience = () => {
         <div className="space-y-12">
           {experiences.map((e, i) => (
             <Reveal key={e.id}>
-              <motion.div
-                className="group flex items-start gap-3"
-                variants={stagger}
-                initial="hidden"
-                whileInView="show"
-                viewport={{ once: false, margin: "-60px" }}
-              >
+              <Show className="group flex items-start gap-3">
                 <motion.span
                   variants={pop}
                   className="citation-number mt-0.5 text-sm transition-transform duration-300 group-hover:-translate-x-0.5 group-hover:scale-110"
@@ -52,7 +46,7 @@ export const Experience = () => {
                     ))}
                   </div>
                 </div>
-              </motion.div>
+              </Show>
             </Reveal>
           ))}
         </div>

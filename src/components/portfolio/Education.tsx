@@ -1,10 +1,25 @@
 import { motion } from "framer-motion";
-import { GPA_SCALE, education, ui } from "@/data/content";
+import { education, ui } from "@/data/content";
 import { useLang } from "@/hooks/useLang";
+import { useVisible } from "@/hooks/useVisible";
 import { AttentionFigure, Figure, GaltonFigure, SchemaFigure } from "./ConceptFigures";
 import { CountUp, Reveal, SectionLabel } from "./shared";
 
 const FIGS = [SchemaFigure, GaltonFigure, AttentionFigure];
+
+const GpaBar = ({ share, delay }: { share: number; delay: number }) => {
+  const [ref, shown] = useVisible<HTMLDivElement>({ amount: 0.5, bottom: 40 });
+  return (
+    <div ref={ref} className="mx-auto mt-2 h-[3px] w-48 bg-secondary">
+      <motion.div
+        className="h-full bg-primary"
+        initial={false}
+        animate={{ width: shown ? `${share * 100}%` : "0%" }}
+        transition={{ duration: shown ? 1.8 : 0.2, delay: shown ? delay : 0, ease: [0.16, 1, 0.3, 1] }}
+      />
+    </div>
+  );
+};
 
 export const Education = () => {
   const { t } = useLang();
@@ -23,18 +38,10 @@ export const Education = () => {
                   <p className="font-mono-math mt-1.5 text-xs text-muted-foreground">{t(e.degree)}</p>
                   <p className="font-mono-math mt-1 text-xs text-muted-foreground">{t(e.period)}</p>
                   <p className="font-mono-math mt-3 text-xs">
-                    GPA: <span className="font-academic text-2xl text-primary"><CountUp value={e.gpa} decimals={e.gpa === GPA_SCALE ? 1 : 2} /></span> / {GPA_SCALE}
+                    GPA: <span className="font-academic text-2xl text-primary"><CountUp value={e.gpa} decimals={e.gpa === e.scale ? 1 : 2} /></span> / {e.scale.toFixed(1)}
                   </p>
                   {/* GPA as a share of the scale, filling on view */}
-                  <div className="mx-auto mt-2 h-[3px] w-48 bg-secondary">
-                    <motion.div
-                      className="h-full bg-primary"
-                      initial={{ width: 0 }}
-                      whileInView={{ width: `${(e.gpa / GPA_SCALE) * 100}%` }}
-                      viewport={{ once: false, amount: 0.3 }}
-                      transition={{ duration: 1.8, delay: 0.3 + i * 0.2, ease: [0.16, 1, 0.3, 1] }}
-                    />
-                  </div>
+                  <GpaBar share={e.gpa / e.scale} delay={0.3 + i * 0.2} />
                 </div>
               </Reveal>
             ))}

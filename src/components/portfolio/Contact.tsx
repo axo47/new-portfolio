@@ -2,7 +2,8 @@ import { useState, type ReactNode } from "react";
 import { motion } from "framer-motion";
 import { links, ui } from "@/data/content";
 import { useLang } from "@/hooks/useLang";
-import { SectionLabel, slideIn, stagger } from "./shared";
+import { useVisible } from "@/hooks/useVisible";
+import { SectionLabel, Show, slideIn } from "./shared";
 
 // small helpers so the source below reads like the LaTeX it imitates
 const Cmd = ({ children }: { children: string }) => <span className="text-primary">{children}</span>;
@@ -23,6 +24,7 @@ const A = ({ href, children, external, download }: { href: string; children: Rea
 export const Contact = () => {
   const { t, lang } = useLang();
   const [copied, setCopied] = useState(false);
+  const [pdfRef, pdfShown] = useVisible<HTMLDivElement>({ amount: 0.2, bottom: 40 });
 
   const copy = async () => {
     try {
@@ -122,28 +124,22 @@ export const Contact = () => {
             <span>contact.tex</span>
             <span>LaTeX</span>
           </div>
-          <motion.ol
-            variants={stagger}
-            initial="hidden"
-            whileInView="show"
-            viewport={{ once: false, amount: 0.2 }}
-            className="font-mono-math py-3 text-[11.5px] leading-[1.9] sm:text-[13px]"
-          >
+          <Show as="ol" once={false} className="font-mono-math py-3 text-[11.5px] leading-[1.9] sm:text-[13px]">
             {lines.map((ln, i) => (
               <motion.li key={i} variants={slideIn} className="flex gap-4 px-4">
                 <span className="w-5 shrink-0 select-none text-right text-muted-foreground/60">{i + 1}</span>
                 <span className="min-w-0 flex-1 whitespace-pre-wrap break-words pl-[2ch] [text-indent:-2ch]">{ln ?? " "}</span>
               </motion.li>
             ))}
-          </motion.ol>
+          </Show>
         </div>
 
         {/* what the source compiles to */}
         <motion.div
-          initial={{ opacity: 0, y: 14 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: false, amount: 0.2 }}
-          transition={{ duration: 0.8, delay: 0.9, ease: [0.16, 1, 0.3, 1] }}
+          ref={pdfRef}
+          initial={false}
+          animate={pdfShown ? { opacity: 1, y: 0 } : { opacity: 0, y: 14 }}
+          transition={{ duration: 0.8, delay: pdfShown ? 0.9 : 0, ease: [0.16, 1, 0.3, 1] }}
           className="flex min-w-0 flex-col border border-border"
         >
           <div className="font-mono-math flex items-center justify-between border-b border-border px-4 py-2 text-[11px] text-muted-foreground">

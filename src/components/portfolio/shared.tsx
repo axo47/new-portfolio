@@ -1,5 +1,6 @@
-import { useEffect, useRef, type ReactNode } from "react";
-import { animate, motion, useInView } from "framer-motion";
+import { useEffect, type ReactNode, type RefObject } from "react";
+import { animate, motion } from "framer-motion";
+import { useVisible } from "@/hooks/useVisible";
 
 /** The portfolio's one entrance animation: each block fades in from a blur as it enters view. */
 export const Reveal = ({
@@ -10,17 +11,44 @@ export const Reveal = ({
   children: ReactNode;
   delay?: number;
   className?: string;
-}) => (
-  <motion.div
-    className={className}
-    initial={{ opacity: 0, y: 30, filter: "blur(8px)" }}
-    whileInView={{ opacity: 1, y: 0, filter: "blur(0px)" }}
-    viewport={{ once: false, margin: "-60px" }}
-    transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1], delay }}
-  >
-    {children}
-  </motion.div>
-);
+}) => {
+  const [ref, visible] = useVisible<HTMLDivElement>({ amount: 0, bottom: 40, once: true });
+  return (
+    <motion.div
+      ref={ref}
+      className={className}
+      initial={false}
+      animate={visible ? { opacity: 1, y: 0, filter: "blur(0px)" } : { opacity: 0, y: 30, filter: "blur(8px)" }}
+      transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1], delay: visible ? delay : 0 }}
+    >
+      {children}
+    </motion.div>
+  );
+};
+
+/** A group whose children (motion elements with `stagger` variants) play in sequence when it comes into view. */
+type Tag = "div" | "ul" | "ol" | "p" | "blockquote" | "dl";
+export const Show = ({
+  as = "div",
+  children,
+  className,
+  once = true,
+  amount = 0,
+}: {
+  as?: Tag;
+  children: ReactNode;
+  className?: string;
+  once?: boolean;
+  amount?: number;
+}) => {
+  const [ref, visible] = useVisible<HTMLElement>({ amount, bottom: 40, once });
+  const Comp = motion[as] as typeof motion.div;
+  return (
+    <Comp ref={ref as RefObject<HTMLDivElement>} className={className} variants={stagger} initial="hidden" animate={visible ? "show" : "hidden"}>
+      {children}
+    </Comp>
+  );
+};
 
 export const SectionLabel = ({ label, center = false }: { label: string; center?: boolean }) => (
   <Reveal className={center ? "mb-10 text-center" : "mb-8"}>
@@ -46,8 +74,7 @@ export const RichText = ({ text }: { text: string }) => (
 );
 
 export const CountUp = ({ value, suffix = "", decimals = 0 }: { value: number; suffix?: string; decimals?: number }) => {
-  const ref = useRef<HTMLSpanElement>(null);
-  const inView = useInView(ref, { amount: 0.6 });
+  const [ref, inView] = useVisible<HTMLSpanElement>({ amount: 0.6, bottom: 40 });
   const zero = `${(0).toFixed(decimals)}${suffix}`;
 
   // counts up each time it comes into view, and goes back to zero when it leaves

@@ -2,7 +2,7 @@ import { motion } from "framer-motion";
 import { researchCards, ui } from "@/data/content";
 import { useLang } from "@/hooks/useLang";
 import { QueryStage } from "./HeroStage";
-import { CountUp, Reveal, SectionLabel, pop, slideIn, stagger } from "./shared";
+import { CountUp, Reveal, SectionLabel, pop, slideIn , Show } from "./shared";
 
 const view = { once: false, margin: "-60px" } as const;
 
@@ -17,13 +17,7 @@ export const Research = () => {
         <div className="space-y-14">
           {researchCards.map((c, i) => (
             <Reveal key={c.id}>
-              <motion.div
-                className="grid items-center gap-12 xl:grid-cols-[minmax(0,1fr)_28rem]"
-                variants={stagger}
-                initial="hidden"
-                whileInView="show"
-                viewport={view}
-              >
+              <Show className="grid items-center gap-12 xl:grid-cols-[minmax(0,1fr)_28rem]">
                 <div className="flex items-start gap-3">
                   <span className="citation-number mt-0.5 text-sm">[R{i + 1}]</span>
                   <div className="flex-1">
@@ -50,7 +44,7 @@ export const Research = () => {
                 <div className="mx-auto w-full max-w-[28rem]">
                   <QueryStage n={8} />
                 </div>
-              </motion.div>
+              </Show>
             </Reveal>
           ))}
         </div>

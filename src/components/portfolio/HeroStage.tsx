@@ -1,5 +1,6 @@
 import { useEffect, useRef, useState, type ReactNode } from "react";
-import { AnimatePresence, motion, useInView } from "framer-motion";
+import { AnimatePresence, motion } from "framer-motion";
+import { useVisible } from "@/hooks/useVisible";
 import { useLang } from "@/hooks/useLang";
 import { ink } from "@/lib/palette";
 import { cn } from "@/lib/utils";
@@ -14,8 +15,7 @@ import { ui, type L } from "@/data/content";
 
 /** A framed figure that mounts its scene only while it is on screen, so each scene starts fresh when you arrive. */
 export const StageFrame = ({ n, caption, children }: { n: number; caption: string; children: ReactNode }) => {
-  const ref = useRef<HTMLElement>(null);
-  const inView = useInView(ref, { margin: "-10% 0px -10% 0px" });
+  const [ref, inView] = useVisible<HTMLElement>({ amount: 0.15, top: 40, bottom: 40 });
 
   return (
     <figure ref={ref} className="m-0 w-full">
@@ -61,8 +61,7 @@ const CAPTIONS: Record<"ai" | "sql", L<string>> = {
 /** Introduction: the space split in three, databases | mathematics | AI, each running its own scene. */
 export const TriStage = ({ n }: { n: number }) => {
   const { t } = useLang();
-  const ref = useRef<HTMLElement>(null);
-  const inView = useInView(ref, { margin: "-10% 0px -10% 0px" });
+  const [ref, inView] = useVisible<HTMLElement>({ amount: 0.15, top: 40, bottom: 40 });
   const cells = [HashScene, LlmScene, ManifoldScene, ScheduleScene];
 
   return (

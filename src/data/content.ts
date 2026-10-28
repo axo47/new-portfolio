@@ -40,8 +40,8 @@ export const ui = {
     abstract: { fr: "Résumé.", en: "Abstract." },
     road: { fr: "Road to PhD", en: "Road to PhD" } as L<string>,
     text: {
-      fr: "Étudiant en 4e année du baccalauréat en génie logiciel (GPA 3.89/4.3) à Polytechnique Montréal, avec une mineure en mathématiques (GPA 4.3/4.3) à l'Université de Montréal. Je m'intéresse à l'endroit où les bases de données, les mathématiques appliquées et l'IA se rejoignent. Stagiaire de recherche au DAIS (Polytechnique Montréal) sur les moteurs de requêtes factorisés (FFX, jusqu'à 50x plus rapide), développeur full-stack chez Axians (Azure SQL, Prisma), formateur en IA (PolyAI) et fondateur de PolyMath.",
-      en: "Fourth-year Software Engineering student (B.Eng., GPA 3.89/4.3) at Polytechnique Montréal, with a minor in Mathematics (GPA 4.3/4.3) at Université de Montréal. I am drawn to where databases, applied mathematics and AI meet. Research intern at DAIS (Polytechnique Montréal) on factorized query engines (FFX, up to 50x faster), full-stack developer at Axians (Azure SQL, Prisma), AI instructor (PolyAI) and founder of PolyMath.",
+      fr: "Étudiant en 4e année du baccalauréat en génie logiciel (GPA 3.89/4.0) à Polytechnique Montréal, avec une mineure en mathématiques (GPA 4.3/4.3) à l'Université de Montréal. Je m'intéresse à l'endroit où les bases de données, les mathématiques appliquées et l'IA se rejoignent. Stagiaire de recherche au DAIS (Polytechnique Montréal) sur les moteurs de requêtes factorisés (FFX, jusqu'à 50x plus rapide), développeur full-stack chez Axians (Azure SQL, Prisma), formateur en IA (PolyAI) et fondateur de PolyMath.",
+      en: "Fourth-year Software Engineering student (B.Eng., GPA 3.89/4.0) at Polytechnique Montréal, with a minor in Mathematics (GPA 4.3/4.3) at Université de Montréal. I am drawn to where databases, applied mathematics and AI meet. Research intern at DAIS (Polytechnique Montréal) on factorized query engines (FFX, up to 50x faster), full-stack developer at Axians (Azure SQL, Prisma), AI instructor (PolyAI) and founder of PolyMath.",
     } as L<string>,
     nowLabel: { fr: "En ce moment", en: "Now" },
     now: [
@@ -406,19 +406,22 @@ export const education: {
   degree: L<string>;
   period: L<string>;
   gpa: number;
+  /** the school's own scale: 4.0 at Polytechnique, 4.3 at Université de Montréal */
+  scale: number;
 }[] = [
   {
     school: "Polytechnique Montréal",
     degree: { fr: "Baccalauréat en génie (B. Ing.), Génie logiciel", en: "B.Eng., Software Engineering" },
     period: { fr: "août 2023 – mai 2027", en: "Aug. 2023 – May 2027" },
     gpa: 3.89,
+    scale: 4,
   },
   {
     school: "Université de Montréal",
     degree: { fr: "Mineure en mathématiques", en: "Minor in Mathematics" },
     period: { fr: "sept. 2024 – août 2027", en: "Sept. 2024 – Aug. 2027" },
     gpa: 4.3,
+    scale: 4.3,
   },
 ];
 
-export const GPA_SCALE = 4.3;

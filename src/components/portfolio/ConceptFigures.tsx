@@ -1,5 +1,6 @@
 import { useEffect, useMemo, useRef, useState, type ReactNode } from "react";
-import { animate, motion, useInView, useMotionValue, useTransform } from "framer-motion";
+import { animate, motion, useMotionValue, useTransform } from "framer-motion";
+import { useVisible } from "@/hooks/useVisible";
 import { ink } from "@/lib/palette";
 
 /**
@@ -9,8 +10,7 @@ import { ink } from "@/lib/palette";
  */
 
 const useLoopWhileVisible = () => {
-  const ref = useRef<SVGSVGElement>(null);
-  const inView = useInView(ref, { margin: "-80px" });
+  const [ref, inView] = useVisible<SVGSVGElement>({ amount: 0.25, top: 40, bottom: 40 });
   return { ref, inView };
 };
 
@@ -164,8 +164,7 @@ const GD_PTS = (() => {
 })();
 
 export const GradientDescentFigure = () => {
-  const ref = useRef<HTMLCanvasElement>(null);
-  const inView = useInView(ref, { margin: "-80px" });
+  const [ref, inView] = useVisible<HTMLCanvasElement>({ amount: 0.25, top: 40, bottom: 40 });
 
   useEffect(() => {
     const canvas = ref.current;
@@ -416,7 +415,7 @@ export const SchemaFigure = () => {
         />
       ))}
       {TABLES.map((t, i) => (
-        <motion.g key={t.id} initial={{ opacity: 0, y: 8 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: false, amount: 0.3 }} transition={{ delay: i * 0.15 }}>
+        <motion.g key={t.id} initial={false} animate={inView ? { opacity: 1, y: 0 } : { opacity: 0, y: 8 }} transition={{ delay: inView ? i * 0.15 : 0 }}>
           <motion.rect x={t.x} y="22" width="62" height="46" fill="transparent" stroke="currentColor" initial={false}
             animate={{ strokeWidth: hot(i) ? 1.6 : 0.9 }} />
           <motion.rect x={t.x} y="22" width="62" height="13" initial={false} fill="currentColor"
@@ -521,8 +520,8 @@ export const AttentionFigure = () => {
         r.map((w, j) => (
           <motion.rect
             key={`${i}-${j}`} x={ox + j * cell + 1} y={oy + i * cell + 1} width={cell - 2} height={cell - 2} fill="currentColor"
-            initial={{ fillOpacity: 0 }} whileInView={{ fillOpacity: 0.06 + w * 1.3 }} viewport={{ once: false, amount: 0.3 }}
-            transition={{ delay: 0.15 + i * 0.1 + j * 0.05, duration: 0.6 }}
+            initial={false} animate={{ fillOpacity: inView ? 0.06 + w * 1.3 : 0 }}
+            transition={{ delay: inView ? 0.15 + i * 0.1 + j * 0.05 : 0, duration: 0.6 }}
           />
         )),
       )}

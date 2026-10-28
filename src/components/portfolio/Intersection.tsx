@@ -2,6 +2,7 @@ import { useState } from "react";
 import { motion } from "framer-motion";
 import { ui } from "@/data/content";
 import { useLang } from "@/hooks/useLang";
+import { useVisible } from "@/hooks/useVisible";
 import { cn } from "@/lib/utils";
 import { Reveal, SectionLabel } from "./shared";
 import { QueryOptimizerFigure, Figure, GradientDescentFigure, SvdFigure } from "./ConceptFigures";
@@ -19,6 +20,7 @@ export const Intersection = () => {
   const { t } = useLang();
   const x = ui.intersection;
   const [active, setActive] = useState<string[]>([]);
+  const [vennRef, shown] = useVisible<SVGSVGElement>({ amount: 0.3, bottom: 40 });
   const lit = (id: string) => active.includes(id);
 
   return (
@@ -33,7 +35,7 @@ export const Intersection = () => {
 
         <div className="mt-12 grid items-center gap-12 md:grid-cols-[minmax(0,26rem)_1fr]">
           <Reveal>
-            <svg viewBox="60 50 360 340" className="mx-auto w-full max-w-md text-primary" role="img" aria-label={t(x.title)}>
+            <svg ref={vennRef} viewBox="60 50 360 340" className="mx-auto w-full max-w-md text-primary" role="img" aria-label={t(x.title)}>
               {CIRCLES.map((c, i) => (
                 // Each circle breathes slightly, out of phase with the others
                 <motion.g
@@ -44,10 +46,9 @@ export const Intersection = () => {
                 >
                   <motion.circle
                     cx={c.cx} cy={c.cy} r={R} fill="currentColor"
-                    initial={{ fillOpacity: 0 }}
-                    whileInView={{ fillOpacity: 0.06 }}
-                    viewport={{ once: false, amount: 0.3 }}
-                    transition={{ duration: 1, delay: 0.6 + i * 0.25 }}
+                    initial={false}
+                    animate={{ fillOpacity: shown ? 0.06 : 0 }}
+                    transition={{ duration: 1, delay: shown ? 0.6 + i * 0.25 : 0 }}
                   />
                   <motion.circle
                     cx={c.cx} cy={c.cy} r={R} fill="currentColor"
@@ -56,11 +57,9 @@ export const Intersection = () => {
                   />
                   <motion.circle
                     cx={c.cx} cy={c.cy} r={R} fill="none" stroke="currentColor"
-                    initial={{ pathLength: 0 }}
-                    whileInView={{ pathLength: 1 }}
-                    animate={{ strokeWidth: lit(c.id) ? 2 : 1.2 }}
-                    viewport={{ once: false, amount: 0.3 }}
-                    transition={{ pathLength: { duration: 1.6, delay: i * 0.25, ease: "easeInOut" }, strokeWidth: { duration: 0.3 } }}
+                    initial={false}
+                    animate={{ pathLength: shown ? 1 : 0, strokeWidth: lit(c.id) ? 2 : 1.2 }}
+                    transition={{ pathLength: { duration: shown ? 1.6 : 0.2, delay: shown ? i * 0.25 : 0, ease: "easeInOut" }, strokeWidth: { duration: 0.3 } }}
                   />
                 </motion.g>
               ))}
@@ -69,8 +68,8 @@ export const Intersection = () => {
                 <motion.text
                   key={id} x={lx} y={ly} textAnchor="middle"
                   className="font-mono-math" fontSize="10.5" letterSpacing="0.06em" fill="currentColor"
-                  initial={{ opacity: 0 }} whileInView={{ opacity: 1 }} viewport={{ once: false, amount: 0.3 }}
-                  transition={{ delay: 1.4, duration: 0.8 }}
+                  initial={false} animate={{ opacity: shown ? 1 : 0 }}
+                  transition={{ delay: shown ? 1.4 : 0, duration: 0.8 }}
                 >
                   {t(x.sets[id])
                     .toUpperCase()
@@ -91,10 +90,9 @@ export const Intersection = () => {
                   transition={{ duration: 2.4, repeat: Infinity, ease: "easeOut", delay: 3 }}
                 />
                 <motion.g
-                  initial={{ opacity: 0, scale: 0.4 }}
-                  whileInView={{ opacity: 1, scale: 1 }}
-                  viewport={{ once: false, amount: 0.3 }}
-                  transition={{ delay: 2.2, type: "spring", stiffness: 260, damping: 14 }}
+                  initial={false}
+                  animate={shown ? { opacity: 1, scale: 1 } : { opacity: 0, scale: 0.4 }}
+                  transition={{ delay: shown ? 2.2 : 0, type: "spring", stiffness: 260, damping: 14 }}
                   style={{ transformOrigin: "240px 192px" }}
                 >
                   <circle cx="240" cy="192" r="16" fill="currentColor" />
