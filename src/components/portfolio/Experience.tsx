@@ -7,35 +7,35 @@ export const Experience = () => {
   const { t } = useLang();
 
   return (
-    <section id="experience" className="py-20 md:py-28">
+    <section id="experience" className="py-10 md:py-14">
       <div className="container mx-auto px-6 md:px-12">
         <SectionLabel label={t(ui.experience.label)} />
 
-        <div className="space-y-12">
+        <div className="space-y-8">
           {experiences.map((e, i) => (
             <Reveal key={e.id}>
               <Show className="group flex items-start gap-3">
                 <motion.span
                   variants={pop}
-                  className="citation-number mt-0.5 text-sm transition-transform duration-300 group-hover:-translate-x-0.5 group-hover:scale-110"
+                  className="citation-number mt-0.5 text-lg transition-transform duration-300 group-hover:-translate-x-0.5 group-hover:scale-110"
                 >
                   [{i + 1}]
                 </motion.span>
                 <div className="flex-1">
-                  <motion.p variants={slideIn} className="font-academic text-lg font-medium transition-colors duration-300 group-hover:text-primary">
+                  <motion.p variants={slideIn} className="font-academic text-2xl font-medium transition-colors duration-300 group-hover:text-primary">
                     {e.org}
                   </motion.p>
-                  <motion.p variants={slideIn} className="font-mono-math mt-0.5 text-xs text-muted-foreground">
+                  <motion.p variants={slideIn} className="font-mono-math mt-0.5 text-base text-muted-foreground">
                     {t(e.role)} · {t(e.period)}
                   </motion.p>
                   {e.sub && (
-                    <motion.p variants={slideIn} className="font-mono-math mt-1.5 text-xs">
+                    <motion.p variants={slideIn} className="font-mono-math mt-1.5 text-base">
                       <span className="text-muted-foreground">{t({ fr: "Sujet :", en: "Topic:" })}</span> {t(e.sub)}
                     </motion.p>
                   )}
                   <ul className="mt-2 space-y-1.5">
                     {t(e.bullets).map((b, j) => (
-                      <motion.li key={j} variants={slideIn} className="font-mono-math text-xs leading-relaxed text-muted-foreground">
+                      <motion.li key={j} variants={slideIn} className="font-mono-math text-base leading-relaxed text-muted-foreground">
                         · <RichText text={b} />
                       </motion.li>
                     ))}

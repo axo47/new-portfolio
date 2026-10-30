@@ -12,12 +12,12 @@ export const Skills = () => {
   const [boxRef, shown] = useVisible<HTMLDivElement>({ amount: 0.2, bottom: 40 });
 
   return (
-    <section id="skills" className="relative py-20 md:py-28">
+    <section id="skills" className="relative py-10 md:py-14">
       <div className="container relative z-10 mx-auto px-6 md:px-12">
         <SectionLabel label={t(ui.skills.label)} />
         <div className="grid items-start gap-12 xl:grid-cols-[minmax(0,1fr)_28rem]">
           <Reveal delay={0.1}>
-            <div ref={boxRef} className="font-mono-math max-w-3xl border border-border p-5 text-xs leading-loose md:p-6">
+            <div ref={boxRef} className="font-mono-math max-w-3xl border border-border p-5 text-base leading-loose md:p-6">
               {skills.map((s, i) => (
                 // Each line is typed out left to right, one after another
                 <motion.div
@@ -37,8 +37,8 @@ export const Skills = () => {
               ))}
             </div>
           </Reveal>
-          <Reveal delay={0.2} className="mx-auto w-full max-w-[28rem]">
-            <NeuralStage n={9} />
+          <Reveal delay={0.2} className="mx-auto hidden w-full max-w-[28rem] md:block">
+            <NeuralStage n={4} />
           </Reveal>
         </div>
       </div>

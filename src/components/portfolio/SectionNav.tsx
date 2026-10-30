@@ -83,13 +83,13 @@ export const SectionNav = () => {
                   aria-label={name(s.id)}
                   aria-current={on ? "true" : undefined}
                   className={cn(
-                    "group flex items-center gap-1.5 rounded-sm px-1.5 py-1 text-[10px] tabular-nums transition-colors",
+                    "group flex items-center gap-1.5 rounded-sm px-1.5 py-1 text-sm tabular-nums transition-colors",
                     on ? "text-primary" : "text-muted-foreground hover:text-primary",
                   )}
                 >
                   <span className={cn(on && "font-semibold")}>{s.label}</span>
                   <span className={cn("block h-px bg-current transition-all duration-300", on ? "w-3.5" : "w-1.5 group-hover:w-3")} />
-                  <span className="pointer-events-none absolute right-full top-1/2 mr-1 hidden -translate-y-1/2 whitespace-nowrap rounded-sm border border-border bg-background/95 px-2 py-1 text-[11px] text-foreground shadow-sm backdrop-blur-sm group-hover:block group-focus-visible:block">
+                  <span className="pointer-events-none absolute right-full top-1/2 mr-1 hidden -translate-y-1/2 whitespace-nowrap rounded-sm border border-border bg-background/95 px-2 py-1 text-sm text-foreground shadow-sm backdrop-blur-sm group-hover:block group-focus-visible:block">
                     {name(s.id)}
                   </span>
                 </a>
@@ -109,7 +109,7 @@ export const SectionNav = () => {
               animate={{ opacity: 1, y: 0, scale: 1 }}
               exit={{ opacity: 0, y: 8, scale: 0.97 }}
               transition={{ duration: 0.18 }}
-              className="absolute bottom-full right-0 mb-2 w-60 origin-bottom-right border border-border bg-background/95 py-1 text-sm shadow-md backdrop-blur-md"
+              className="absolute bottom-full right-0 mb-2 w-60 origin-bottom-right border border-border bg-background/95 py-1 text-lg shadow-md backdrop-blur-md"
             >
               {SECTIONS.map((s) => (
                 <li key={s.id} role="none">
@@ -135,7 +135,7 @@ export const SectionNav = () => {
           aria-expanded={open}
           aria-haspopup="menu"
           aria-label="Sections"
-          className="flex h-12 items-center gap-2.5 rounded-full border border-primary bg-primary px-4 text-xs font-medium text-primary-foreground shadow-lg shadow-primary/25 transition-transform active:scale-95"
+          className="flex h-12 items-center gap-2.5 rounded-full border border-primary bg-primary px-4 text-base font-medium text-primary-foreground shadow-lg shadow-primary/25 transition-transform active:scale-95"
         >
           {open ? <X className="h-4 w-4" /> : <List className="h-4 w-4" />}
           <span>§ {label}</span>

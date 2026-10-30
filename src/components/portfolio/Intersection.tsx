@@ -5,7 +5,6 @@ import { useLang } from "@/hooks/useLang";
 import { useVisible } from "@/hooks/useVisible";
 import { cn } from "@/lib/utils";
 import { Reveal, SectionLabel } from "./shared";
-import { QueryOptimizerFigure, Figure, GradientDescentFigure, SvdFigure } from "./ConceptFigures";
 
 /** Venn diagram: databases, AI, applied math — and the projects that sit in each overlap. */
 const R = 110;
@@ -24,16 +23,16 @@ export const Intersection = () => {
   const lit = (id: string) => active.includes(id);
 
   return (
-    <section id="intersection" className="py-20 md:py-28">
+    <section id="intersection" className="py-10 md:py-14">
       <div className="container mx-auto px-6 md:px-12">
         <SectionLabel label={t(x.label)} />
 
         <Reveal>
           <h2 className="font-academic max-w-3xl text-3xl leading-tight md:text-4xl">{t(x.title)}</h2>
-          <p className="font-mono-math mt-4 max-w-2xl text-xs leading-relaxed text-muted-foreground">{t(x.intro)}</p>
+          <p className="font-mono-math mt-4 max-w-2xl text-base leading-relaxed text-muted-foreground">{t(x.intro)}</p>
         </Reveal>
 
-        <div className="mt-12 grid items-center gap-12 md:grid-cols-[minmax(0,26rem)_1fr]">
+        <div className="mt-8 grid items-center gap-12 md:grid-cols-[minmax(0,26rem)_1fr]">
           <Reveal>
             <svg ref={vennRef} viewBox="60 50 360 340" className="mx-auto w-full max-w-md text-primary" role="img" aria-label={t(x.title)}>
               {CIRCLES.map((c, i) => (
@@ -67,7 +66,7 @@ export const Intersection = () => {
               {Object.entries(SET_LABELS).map(([id, [lx, ly]]) => (
                 <motion.text
                   key={id} x={lx} y={ly} textAnchor="middle"
-                  className="font-mono-math" fontSize="10.5" letterSpacing="0.06em" fill="currentColor"
+                  className="font-mono-math" fontSize="13" letterSpacing="0.05em" fill="currentColor"
                   initial={false} animate={{ opacity: shown ? 1 : 0 }}
                   transition={{ delay: shown ? 1.4 : 0, duration: 0.8 }}
                 >
@@ -75,7 +74,7 @@ export const Intersection = () => {
                     .toUpperCase()
                     .split(/ (?=[^ ]+$)/)
                     .map((word, k) => (
-                      <tspan key={k} x={lx} dy={k === 0 ? 0 : 13}>
+                      <tspan key={k} x={lx} dy={k === 0 ? 0 : 16}>
                         {word}
                       </tspan>
                     ))}
@@ -84,7 +83,7 @@ export const Intersection = () => {
 
               <g>
                 <motion.circle
-                  cx="240" cy="192" r="16" fill="none" stroke="currentColor" strokeWidth="1"
+                  cx="240" cy="192" r="20" fill="none" stroke="currentColor" strokeWidth="1"
                   style={{ transformOrigin: "240px 192px" }}
                   animate={{ scale: [1, 2.2], opacity: [0.5, 0] }}
                   transition={{ duration: 2.4, repeat: Infinity, ease: "easeOut", delay: 3 }}
@@ -95,8 +94,8 @@ export const Intersection = () => {
                   transition={{ delay: shown ? 2.2 : 0, type: "spring", stiffness: 260, damping: 14 }}
                   style={{ transformOrigin: "240px 192px" }}
                 >
-                  <circle cx="240" cy="192" r="16" fill="currentColor" />
-                  <text x="240" y="196" textAnchor="middle" className="font-mono-math" fontSize="10.5" fontWeight="600" fill="white">
+                  <circle cx="240" cy="192" r="20" fill="currentColor" />
+                  <text x="240" y="197" textAnchor="middle" className="font-mono-math" fontSize="13" fontWeight="600" fill="white">
                     {t({ fr: "Moi", en: "Me" })}
                   </text>
                 </motion.g>
@@ -112,33 +111,17 @@ export const Intersection = () => {
                   onMouseEnter={() => setActive([r.id])}
                   onMouseLeave={() => setActive([])}
                 >
-                  <span className="citation-number whitespace-nowrap text-xs">
+                  <span className="citation-number whitespace-nowrap text-base">
                     {t({ fr: "Remarque", en: "Remark" })} {i + 1}.
                   </span>
                   <div className="transition-transform duration-300 group-hover:translate-x-1">
-                    <p className={cn("font-academic text-lg transition-colors", lit(r.id) && "text-primary")}>{t(r.title)}</p>
-                    <p className="font-mono-math mt-0.5 text-xs leading-relaxed text-muted-foreground">{t(r.text)}</p>
+                    <p className={cn("font-academic text-2xl transition-colors", lit(r.id) && "text-primary")}>{t(r.title)}</p>
+                    <p className="font-mono-math mt-0.5 text-base leading-relaxed text-muted-foreground">{t(r.text)}</p>
                   </div>
                 </div>
               </Reveal>
             ))}
           </div>
-        </div>
-
-        {/* Concept figures, one per field; hovering one lights its circle */}
-        <div className="mt-20 grid gap-10 md:grid-cols-3">
-          {x.figures.map((f, i) => {
-            const Fig = [QueryOptimizerFigure, GradientDescentFigure, SvdFigure][i];
-            return (
-              <Reveal key={f.set} delay={i * 0.1}>
-                <div onMouseEnter={() => setActive([f.set])} onMouseLeave={() => setActive([])}>
-                  <Figure n={i + 2} caption={t(f.caption)}>
-                    <Fig />
-                  </Figure>
-                </div>
-              </Reveal>
-            );
-          })}
         </div>
       </div>
     </section>

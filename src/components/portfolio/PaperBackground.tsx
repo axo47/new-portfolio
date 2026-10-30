@@ -29,7 +29,7 @@ export const PaperBackground = () => {
         x: Math.random() * 100,
         y: Math.random() * 100,
         size: 18 + Math.random() * 46,
-        opacity: 0.07 + Math.random() * 0.07,
+        opacity: 0.05 + Math.random() * 0.05,
         duration: 26 + Math.random() * 26,
         delay: -Math.random() * 30,
         dx: 30 + Math.random() * 70,

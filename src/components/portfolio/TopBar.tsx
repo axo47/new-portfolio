@@ -6,7 +6,7 @@ export const TopBar = () => {
   const { lang, setLang } = useLang();
 
   return (
-    <div className="font-mono-math fixed right-3 top-3 z-50 text-xs sm:right-4 sm:top-4 md:right-6 md:top-6">
+    <div className="font-mono-math fixed right-3 top-3 z-50 text-base sm:right-4 sm:top-4 md:right-6 md:top-6">
       <div role="group" aria-label="Language" className="flex rounded-sm border border-border bg-background/80 backdrop-blur-sm">
         {(["fr", "en"] as const).map((l) => (
           <button

@@ -3,13 +3,14 @@ import { Download, GraduationCap, Github, Linkedin, Mail } from "lucide-react";
 import { links, ui } from "@/data/content";
 import { useLang } from "@/hooks/useLang";
 import photo from "@/assets/profile-photo.jpeg";
-import { TriStage } from "./HeroStage";
+import { ManifoldStage } from "./HeroStage";
+import { GaltonStage } from "./ProbScenes";
 import { Reveal, slideIn, stagger } from "./shared";
 
 const EASE = [0.16, 1, 0.3, 1] as const;
 
 const btn =
-  "font-mono-math inline-flex items-center justify-center gap-2 rounded-sm border border-primary/40 px-3 py-2 text-xs text-foreground transition-colors duration-200 hover:border-primary hover:bg-primary hover:text-primary-foreground";
+  "font-mono-math inline-flex items-center justify-center gap-2 rounded-sm border border-primary/40 px-3 py-2 text-base text-foreground transition-colors duration-200 hover:border-primary hover:bg-primary hover:text-primary-foreground";
 
 export const Hero = () => {
   const { t } = useLang();
@@ -21,7 +22,7 @@ export const Hero = () => {
           <p className="section-number mb-4">{t(ui.hero.label)}</p>
         </Reveal>
 
-        <div className="grid items-start gap-12 xl:grid-cols-[minmax(0,1fr)_minmax(0,1.12fr)] xl:gap-12">
+        <div className="grid items-start gap-12 xl:grid-cols-[minmax(0,1.55fr)_minmax(0,0.8fr)] xl:gap-12">
           {/* Left: who, the abstract, what I am doing now */}
           <div>
             <div className="grid grid-cols-[auto_minmax(0,1fr)] items-end gap-x-4 gap-y-5 sm:gap-x-6 xl:gap-x-6">
@@ -39,7 +40,7 @@ export const Hero = () => {
                 <motion.img
                   src={photo}
                   alt={t(ui.hero.photoAlt)}
-                  className="h-40 w-[7.5rem] object-cover object-[50%_38%] min-[400px]:h-48 min-[400px]:w-36 sm:h-72 sm:w-[13.5rem] xl:aspect-[3/4] xl:h-[clamp(16rem,43svh,26rem)] xl:w-auto"
+                  className="h-40 w-[7.5rem] object-cover object-[50%_38%] min-[400px]:h-48 min-[400px]:w-36 sm:h-72 sm:w-[13.5rem] xl:aspect-[3/4] xl:h-[clamp(12rem,36svh,24rem)] xl:w-auto"
                   initial={{ clipPath: "inset(0 0 100% 0)", scale: 1.08 }}
                   animate={{ clipPath: "inset(0 0 0% 0)", scale: 1 }}
                   transition={{ duration: 1.3, delay: 0.9, ease: EASE }}
@@ -62,7 +63,7 @@ export const Hero = () => {
                   ))}
                 </h1>
                 <motion.div
-                  className="font-mono-math mt-3 flex items-center gap-2.5 text-[11px] uppercase tracking-[0.16em] text-primary sm:text-xs sm:tracking-[0.18em]"
+                  className="font-mono-math mt-3 flex items-center gap-2.5 text-sm uppercase tracking-[0.16em] text-primary sm:text-base sm:tracking-[0.18em]"
                   initial={{ opacity: 0, x: -10 }}
                   animate={{ opacity: 1, x: 0 }}
                   transition={{ delay: 0.8, duration: 0.7, ease: EASE }}
@@ -111,25 +112,25 @@ export const Hero = () => {
             </div>
 
             <Reveal delay={0.4}>
-              <div className="mt-5 border border-border p-4 backdrop-blur-[2px]">
-                <p className="font-mono-math text-xs leading-relaxed text-muted-foreground xl:text-[12.5px] xl:leading-[1.7] 2xl:text-sm">
-                  <span className="font-academic text-sm italic text-foreground">{t(ui.hero.abstract)}</span> {t(ui.hero.text)}
+              <div className="mt-4 border border-border p-3 backdrop-blur-[2px] xl:mt-3">
+                <p className="font-mono-math text-base leading-relaxed text-muted-foreground xl:text-[0.95rem] xl:leading-[1.55] 2xl:text-lg">
+                  <span className="font-academic text-lg italic text-foreground">{t(ui.hero.abstract)}</span> {t(ui.hero.text)}
                 </p>
               </div>
             </Reveal>
 
             <Reveal delay={0.6}>
-              <div className="mt-4">
-                <p className="font-mono-math mb-2 flex items-center gap-2 text-[10px] uppercase tracking-[0.2em] text-primary">
+              <div className="mt-3">
+                <p className="font-mono-math mb-1.5 flex items-center gap-2 text-sm uppercase tracking-[0.2em] text-primary">
                   <span className="relative flex h-1.5 w-1.5">
                     <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-primary opacity-60" />
                     <span className="relative inline-flex h-1.5 w-1.5 rounded-full bg-primary" />
                   </span>
                   {t(ui.hero.nowLabel)}
                 </p>
-                <ul className="font-mono-math space-y-1.5 text-xs xl:text-[13px]">
+                <ul className="font-mono-math grid gap-x-8 gap-y-1 text-base sm:grid-cols-3 xl:text-[0.95rem]">
                   {ui.hero.now.map((n) => (
-                    <li key={n.org} className="flex flex-wrap gap-x-3">
+                    <li key={n.org} className="flex flex-col">
                       <span className="font-semibold text-foreground">{n.org}</span>
                       <span className="text-muted-foreground">{t(n.role)}</span>
                     </li>
@@ -138,9 +139,12 @@ export const Hero = () => {
               </div>
             </Reveal>
           </div>
-          {/* Right: the three fields, each running its own animation */}
-          <Reveal delay={0.3} >
-            <TriStage n={1} />
+          {/* Right: two calm figures, centred on the column, hidden on phones */}
+          <Reveal delay={0.3} className="hidden md:block xl:self-center">
+            <div className="mx-auto flex w-full max-w-[min(100%,15rem,calc((100svh_-_14rem)/2))] flex-col gap-5 2xl:max-w-[min(19rem,calc((100svh_-_14rem)/2))]">
+              <ManifoldStage n={1} />
+              <GaltonStage n={2} />
+            </div>
           </Reveal>
         </div>
       </div>

@@ -49,28 +49,18 @@ export const ui = {
       { org: "Polytechnique Montréal", role: { fr: "Chargé de laboratoire, INF3710", en: "Lab instructor, INF3710" } },
       { org: "PolyMath", role: { fr: "Fondateur et président", en: "Founder & president" } },
     ] as { org: string; role: L<string> }[],
-    tri: [
-      { name: { fr: "Bases de données", en: "Databases" }, sub: { fr: "table de hachage", en: "hash table" } },
-      { name: { fr: "IA", en: "AI" }, sub: { fr: "mot suivant", en: "next token" } },
-      { name: { fr: "Mathématiques", en: "Mathematics" }, sub: { fr: "variété différentiable", en: "smooth manifold" } },
-      { name: { fr: "Optimisation", en: "Optimization" }, sub: { fr: "ordonnancement", en: "scheduling" } },
-    ] as { name: L<string>; sub: L<string> }[],
-    triCaption: {
-      fr: "Quatre concepts dans les domaines que j'aime : table de hachage 3D, LLM, variété différentiable, ordonnancement par décomposition de matrices.",
-      en: "Four concepts from the fields I enjoy: 3D hash table, LLM, smooth manifold, scheduling by matrix decomposition.",
-    } as L<string>,
     cv: { fr: "./cv.pdf", en: "./cv.pdf" },
     photoAlt: { fr: "Portrait de Kevin Ezzedine", en: "Portrait of Kevin Ezzedine" },
   },
   intersection: {
     label: { fr: "§ 0.2 — Intersection", en: "§ 0.2 — Intersection" },
     title: {
-      fr: "Un point milieu entre les bases de données, l'IA et les mathématiques appliquées.",
-      en: "A midpoint between databases, AI and applied mathematics.",
+      fr: "Mon profil : un point milieu entre les bases de données, l'IA et les mathématiques appliquées.",
+      en: "My profile: a midpoint between databases, AI and applied mathematics.",
     } as L<string>,
     intro: {
-      fr: "Ce qui m'attire, c'est là où ces trois domaines se rejoignent : des données qu'on peut interroger efficacement, des systèmes qui apprennent, et des méthodes qui se démontrent.",
-      en: "What draws me is where these three fields meet: data that can be queried efficiently, systems that learn, and methods that can be proven.",
+      fr: "Les animations du site illustrent des concepts de ces trois domaines. Chaque cercle résume ce que j'y ai fait.",
+      en: "The animations on this site illustrate concepts from these three fields. Each circle sums up what I have done in it.",
     } as L<string>,
     sets: {
       db: { fr: "Bases de données", en: "Databases" },
@@ -86,11 +76,6 @@ export const ui = {
       fr: "des systèmes qui interrogent, apprennent et se démontrent",
       en: "systems that query, learn and can be proven",
     } as L<string>,
-    figures: [
-      { set: "db", caption: { fr: "Programmation dynamique (Bellman) dans l'optimiseur : on calcule le meilleur plan de chaque paire de tables, puis on le réutilise pour joindre la troisième. On garde le coût minimal : (A ⋈ C) ⋈ B coûte 150, contre 600 et 2100.", en: "Dynamic programming (Bellman) in the optimizer: compute the best plan for every pair of tables, then reuse it to join the third. The minimum cost wins: (A ⋈ C) ⋈ B costs 150, against 600 and 2100." } },
-      { set: "ai", caption: { fr: "Descente de gradient sur une surface de perte en 3D : θₖ₊₁ = θₖ − η · g(θₖ), où g est le gradient.", en: "Gradient descent on a 3D loss surface: θₖ₊₁ = θₖ − η · g(θₖ), where g is the gradient." } },
-      { set: "math", caption: { fr: "Décomposition en valeurs singulières : une application linéaire envoie le cercle sur une ellipse.", en: "Singular value decomposition: a linear map sends the unit circle to an ellipse." } },
-    ] as { set: string; caption: L<string> }[],
     remarks: [
       {
         id: "db",
@@ -130,11 +115,6 @@ export const ui = {
   },
   education: {
     label: { fr: "§ 0.3 — Formation", en: "§ 0.3 — Education" },
-    figures: [
-      { set: "db", caption: { fr: "Schéma relationnel : une jointure suit les clés étrangères (Student ⋈ Program ⋈ School).", en: "Relational schema: a join walks the foreign keys (Student ⋈ Program ⋈ School)." } },
-      { set: "math", caption: { fr: "Théorème central limite : une planche de Galton fait converger la somme de choix aléatoires vers une loi normale.", en: "Central limit theorem: a Galton board makes a sum of random choices converge to a normal law." } },
-      { set: "ai", caption: { fr: "Auto-attention : chaque mot répartit son poids sur les autres, softmax(QKᵀ/√dₖ)V.", en: "Self-attention: each token spreads its weight over the others, softmax(QKᵀ/√dₖ)V." } },
-    ] as { set: string; caption: L<string> }[],
   },
   awardsSection: {
     label: { fr: "§ 4 — Bourses", en: "§ 4 — Awards" } as L<string>,

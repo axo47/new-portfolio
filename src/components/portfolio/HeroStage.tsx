@@ -39,7 +39,7 @@ export const StageFrame = ({ n, caption, children }: { n: number; caption: strin
           )}
         </AnimatePresence>
       </div>
-      <figcaption className="font-mono-math mt-3 text-[11px] leading-relaxed text-muted-foreground">
+      <figcaption className="font-mono-math mt-3 text-center text-sm leading-relaxed text-muted-foreground">
         <span className="citation-number mr-1.5">Fig. {n}</span>
         {caption}
       </figcaption>
@@ -47,7 +47,11 @@ export const StageFrame = ({ n, caption, children }: { n: number; caption: strin
   );
 };
 
-const CAPTIONS: Record<"ai" | "sql", L<string>> = {
+const CAPTIONS: Record<"ai" | "sql" | "manifold", L<string>> = {
+  manifold: {
+    fr: "Variété différentiable.",
+    en: "Smooth manifold.",
+  },
   ai: {
     fr: "Un réseau de neurones : propagation avant, puis rétropropagation du gradient.",
     en: "A neural network: forward pass, then backpropagation of the gradient.",
@@ -58,87 +62,13 @@ const CAPTIONS: Record<"ai" | "sql", L<string>> = {
   },
 };
 
-/** Introduction: the space split in three, databases | mathematics | AI, each running its own scene. */
-export const TriStage = ({ n }: { n: number }) => {
-  const { t } = useLang();
-  const [ref, inView] = useVisible<HTMLElement>({ amount: 0.15, top: 40, bottom: 40 });
-  const cells = [HashScene, LlmScene, ManifoldScene, ScheduleScene];
 
-  return (
-    <figure ref={ref} className="m-0 mx-auto w-full max-w-3xl xl:max-w-none">
-      <div className="relative border border-border xl:h-[clamp(440px,calc(100svh-11rem),800px)]">
-        {["left-0 top-0", "right-0 top-0", "bottom-0 left-0", "bottom-0 right-0"].map((pos) => (
-          <span key={pos} className={cn("absolute z-10 h-2.5 w-2.5 border-primary/60", pos, pos.includes("top") ? "border-t" : "border-b", pos.includes("left") ? "border-l" : "border-r")} />
-        ))}
-        {/* a light that keeps sweeping across the fields */}
-        <div className="pointer-events-none absolute inset-x-0 top-0 z-10 h-px overflow-hidden">
-          <motion.span
-            className="block h-px w-1/3 bg-gradient-to-r from-transparent via-primary to-transparent"
-            animate={{ x: ["-100%", "300%"] }}
-            transition={{ duration: 4, repeat: Infinity, ease: "linear" }}
-          />
-        </div>
-
-        <div className="grid sm:grid-cols-2 xl:h-full xl:grid-rows-[minmax(0,1.35fr)_minmax(0,1fr)]">
-          {cells.map((Scene, i) => (
-            <div key={i} className={cn("relative flex min-h-0 flex-col", i > 0 && "border-t border-dashed border-border",
-                i === 1 && "sm:border-l sm:border-t-0",
-                i === 3 && "sm:border-l")}>
-              <div className="font-mono-math flex items-center justify-between px-4 pb-1 pt-2.5 text-[10px] uppercase tracking-[0.18em] text-muted-foreground">
-                <span>
-                  <span className="mr-2 text-primary">0{i + 1}</span>
-                  <span className="text-foreground">{t(ui.hero.tri[i].name)}</span>
-                  
-                </span>
-                {i === 0 && (
-                  <motion.span className="text-primary" animate={{ x: [0, 6, 0] }} transition={{ duration: 1.6, repeat: Infinity, delay: i * 0.5 }}>
-                    →
-                  </motion.span>
-                )}
-              </div>
-              <div className={cn("relative w-full sm:aspect-square", ["aspect-[4/5]", "aspect-[5/6]", "aspect-square", "aspect-[6/5]"][i], "xl:aspect-auto xl:min-h-0 xl:flex-1")}>
-                <AnimatePresence>
-                  {inView && (
-                    <motion.div
-                      key="scene"
-                      className="absolute inset-0"
-                      initial={{ opacity: 0, filter: "blur(10px)", scale: 0.985 }}
-                      animate={{ opacity: 1, filter: "blur(0px)", scale: 1 }}
-                      exit={{ opacity: 0 }}
-                      transition={{ duration: 0.7, delay: i * 0.25, ease: [0.16, 1, 0.3, 1] }}
-                    >
-                      <Scene />
-                    </motion.div>
-                  )}
-                </AnimatePresence>
-              </div>
-            </div>
-          ))}
-        </div>
-      </div>
-      <figcaption className="font-mono-math mt-3 text-[11px] leading-relaxed text-muted-foreground">
-        <span className="citation-number mr-1.5">Fig. {n}</span>
-        {t(ui.hero.triCaption)}{" "}
-        <a
-          href="https://www.cidrdb.org/cidr2022/papers/p18-flachs.pdf"
-          target="_blank"
-          rel="noreferrer"
-          className="underline decoration-primary/40 underline-offset-2 transition-colors hover:text-primary"
-        >
-          {t({ fr: "Table de hachage d'après", en: "Hash table after" })} Flachs, Müller &amp; Moerkotte, « The 3D Hash Join », CIDR 2022
-        </a>
-        .
-      </figcaption>
-    </figure>
-  );
-};
-
-/** Databases section: a SQL query going through the compiler. */
-export const QueryStage = ({ n }: { n: number }) => {
+/** Introduction: one manifold, calm and on its own. */
+export const ManifoldStage = ({ n }: { n: number }) => {
   const { t } = useLang();
   return (
-    <StageFrame n={n} caption={t(CAPTIONS.sql)}>
-      <QueryScene />
+    <StageFrame n={n} caption={t(CAPTIONS.manifold)}>
+      <ManifoldScene />
     </StageFrame>
   );
 };
@@ -149,6 +79,16 @@ export const NeuralStage = ({ n }: { n: number }) => {
   return (
     <StageFrame n={n} caption={t(CAPTIONS.ai)}>
       <NeuralScene />
+    </StageFrame>
+  );
+};
+
+/** Databases section: a SQL query going through the compiler. */
+export const QueryStage = ({ n }: { n: number }) => {
+  const { t } = useLang();
+  return (
+    <StageFrame n={n} caption={t(CAPTIONS.sql)}>
+      <QueryScene />
     </StageFrame>
   );
 };
@@ -577,358 +517,3 @@ const Ast = () => {
 };
 
 /* ===================== Intro scene: a cache on a 3D hash table ===================== */
-
-// After Flachs, Müller & Moerkotte, "The 3D Hash Join", CIDR 2022: the hash directory points to a main chain of
-// *distinct* keys; each main node owns a sub chain with every tuple that has that key.
-const HT_MAIN = [
-  { k: "k₂", cx: 90, subs: ["v₂₁", "v₂₂"] },
-  { k: "k₃", cx: 162, subs: ["v₃₁", "v₃₂", "v₃₃"] },
-];
-type HtEvent =
-  | { t: "probe" }
-  | { t: "hash" }
-  | { t: "visit"; i: number; match: boolean }
-  | { t: "emit"; i: number; j: number }
-  | { t: "done" };
-
-const htEvents = (target: number): HtEvent[] => [
-  { t: "probe" },
-  { t: "hash" },
-  ...HT_MAIN.slice(0, target + 1).map((_, i): HtEvent => ({ t: "visit", i, match: i === target })),
-  ...HT_MAIN[target].subs.map((_, j): HtEvent => ({ t: "emit", i: target, j })),
-  { t: "done" },
-];
-
-const HashScene = () => {
-  const [target, setTarget] = useState(1);
-  const [tick, setTick] = useState(0);
-  const events = htEvents(target);
-
-  useEffect(() => {
-    const id = setInterval(() => setTick((v) => v + 1), 750);
-    return () => clearInterval(id);
-  }, []);
-  useEffect(() => {
-    if (tick >= events.length + 2) {
-      setTick(0);
-      setTarget((v) => 1 - v);
-    }
-  }, [tick, events.length]);
-
-  const upto = events.slice(0, Math.min(tick + 1, events.length));
-  const last = upto[upto.length - 1];
-  const key = HT_MAIN[target].k;
-  const hashed = upto.some((e) => e.t === "hash");
-  const done = upto.some((e) => e.t === "done");
-  const visit = (i: number) => upto.find((e) => e.t === "visit" && e.i === i) as Extract<HtEvent, { t: "visit" }> | undefined;
-  const emitted = (i: number, j: number) => upto.some((e) => e.t === "emit" && e.i === i && e.j === j);
-  const nEmit = upto.filter((e) => e.t === "emit").length;
-
-  const msg =
-    last.t === "probe" ? `probe(${key})` :
-    last.t === "hash" ? `h(${key}) = 1  →  directory[1]` :
-    last.t === "visit" ? (last.match ? `${HT_MAIN[last.i].k} = ${key}  ✓ match` : `${HT_MAIN[last.i].k} ≠ ${key}  → skip its sub chain`) :
-    last.t === "emit" ? `emit ${HT_MAIN[last.i].subs[last.j]}` :
-    "hit ✓ cached tuples reused";
-
-  const box = (x: number, y: number, w: number, h: number, on: boolean, tone: "hit" | "miss" | "idle") => (
-    <motion.rect x={x} y={y} width={w} height={h} rx="1.5" stroke="currentColor" initial={false}
-      animate={{
-        fill: tone === "hit" ? "hsl(var(--primary) / 0.28)" : tone === "miss" ? "hsl(var(--foreground) / 0.07)" : "hsl(var(--background) / 0)",
-        strokeWidth: on ? 1.6 : 1,
-        strokeOpacity: tone === "miss" ? 0.45 : 1,
-      }}
-      transition={{ duration: 0.25 }} />
-  );
-
-  return (
-    <svg viewBox="0 0 260 322" className="absolute inset-0 h-full w-full text-primary">
-      <text x="12" y="28" fontSize="8" fill="currentColor" className="font-mono-math" opacity="0.75">directory</text>
-      <text x="70" y="28" fontSize="8" fill="currentColor" className="font-mono-math" opacity="0.75">main chain (distinct keys)</text>
-
-      {/* hash directory */}
-      {[0, 1, 2].map((r) => (
-        <g key={r}>
-          {box(12, 38 + r * 22, 40, 22, hashed && r === 1, hashed && r === 1 ? "hit" : "idle")}
-          <text x="19" y={53 + r * 22} fontSize="9" fill="currentColor" className="font-mono-math">{r}</text>
-          {r !== 1 && <text x="42" y={53 + r * 22} fontSize="9" fill="currentColor" className="font-mono-math" opacity="0.6">✕</text>}
-        </g>
-      ))}
-      <text x="32" y="124" textAnchor="middle" fontSize="11" fill="currentColor" opacity="0.6">⋮</text>
-      {box(12, 130, 40, 22, false, "idle")}
-      <text x="19" y="145" fontSize="9" fill="currentColor" className="font-mono-math">m−1</text>
-      <text x="42" y="145" fontSize="9" fill="currentColor" className="font-mono-math" opacity="0.6">✕</text>
-
-      {/* pointer from the directory to the chain, then between main nodes */}
-      <line x1="52" y1="71" x2="64" y2="71" stroke="currentColor" strokeWidth="1.2" />
-      <line x1="116" y1="71" x2="136" y2="71" stroke="currentColor" strokeWidth="1.2" />
-      <path d="M133 68 L137 71 L133 74" fill="none" stroke="currentColor" strokeWidth="1.1" />
-
-      {/* main nodes and their sub chains */}
-      {HT_MAIN.map((m, i) => {
-        const v = visit(i);
-        const tone = v ? (v.match ? "hit" : "miss") : "idle";
-        const skipped = tone === "miss";
-        return (
-          <g key={m.k}>
-            {box(m.cx - 26, 60, 52, 22, !!v, tone)}
-            <text x={m.cx - 18} y="75" fontSize="10" fontWeight="600" fill="currentColor" className="font-mono-math">{m.k}</text>
-            <circle cx={m.cx + 17} cy="71" r="2.6" fill="currentColor" />
-            <line x1={m.cx + 17} y1="74" x2={m.cx + 17} y2="100" stroke="currentColor" strokeWidth="1.1" strokeOpacity={skipped ? 0.25 : 0.8} />
-            {m.subs.map((sv, j) => {
-              const y = 100 + j * 30;
-              const on = emitted(i, j);
-              return (
-                <g key={sv}>
-                  {j > 0 && <line x1={m.cx + 17} y1={y - 12} x2={m.cx + 17} y2={y} stroke="currentColor" strokeWidth="1.1" strokeOpacity={skipped ? 0.25 : 0.8} />}
-                  <motion.rect x={m.cx - 10} y={y} width="54" height="18" rx="1.5" stroke="currentColor" initial={false}
-                    animate={{ fill: on ? "hsl(var(--primary) / 0.5)" : "hsl(var(--background) / 0)", strokeOpacity: skipped ? 0.3 : 1, strokeWidth: on ? 1.6 : 1 }}
-                    transition={{ duration: 0.25 }} />
-                  <text x={m.cx - 2} y={y + 12.5} fontSize="9.5" fill="currentColor" className="font-mono-math" opacity={skipped ? 0.4 : 1}>{sv}</text>
-                </g>
-              );
-            })}
-          </g>
-        );
-      })}
-
-      {/* the probing key: a light tag, so the structure stays the focus */}
-      <motion.g initial={false} animate={{ opacity: done ? 0.4 : 1 }}>
-        <rect x="190" y="34" width="58" height="18" rx="2" fill="transparent" stroke="currentColor" strokeWidth="1" strokeDasharray="3 2" />
-        <text x="219" y="46.5" textAnchor="middle" fontSize="9" fill="currentColor" className="font-mono-math">probe {key}</text>
-      </motion.g>
-      <motion.path d="M190 43 C 160 43, 100 40, 54 49" fill="none" stroke="currentColor" strokeWidth="1.1" strokeDasharray="3 3" initial={false}
-        animate={{ opacity: hashed ? 0.9 : 0 }} />
-
-      {/* results leave the table: they are collected outside it */}
-      <line x1="12" y1="192" x2="248" y2="192" stroke="currentColor" strokeOpacity="0.25" strokeDasharray="2 3" />
-      <text x="12" y="212" fontSize="9" fill="currentColor" className="font-mono-math" opacity="0.8">out →</text>
-      {HT_MAIN[target].subs.map((sv, j) =>
-        emitted(target, j) ? (
-          <motion.g key={`${target}-${sv}`} initial={{ opacity: 0, y: -22 }} animate={{ opacity: 1, y: 0 }} transition={{ type: "spring", stiffness: 240, damping: 18 }}>
-            <rect x={52 + j * 50} y="198" width="44" height="18" rx="1.5" fill="hsl(var(--primary) / 0.28)" stroke="currentColor" strokeWidth="1.4" />
-            <text x={74 + j * 50} y="210.5" textAnchor="middle" fontSize="9.5" fill="currentColor" className="font-mono-math">{sv}</text>
-          </motion.g>
-        ) : (
-          <rect key={`${target}-${sv}`} x={52 + j * 50} y="198" width="44" height="18" rx="1.5" fill="none" stroke="currentColor" strokeOpacity="0.2" strokeDasharray="2 3" />
-        ),
-      )}
-
-      <text x="12" y="244" fontSize="10" fill="currentColor" className="font-mono-math" fontWeight="600">{msg}</text>
-      <text x="12" y="260" fontSize="9" fill="currentColor" className="font-mono-math" opacity="0.7">matches: {nEmit}</text>
-      <text x="12" y="282" fontSize="8.5" fill="currentColor" className="font-mono-math" opacity="0.8">chaining visits every duplicate;</text>
-      <text x="12" y="295" fontSize="8.5" fill="currentColor" className="font-mono-math" opacity="0.8">3D: each key once, then its sub chain</text>
-      <text x="12" y="314" fontSize="8" fill="currentColor" className="font-mono-math" opacity="0.6">Flachs, Müller, Moerkotte · CIDR 2022</text>
-    </svg>
-  );
-};
-
-/* ===================== Intro scene: how an LLM generates text ===================== */
-
-const LLM_PROMPT = "The query optimizer picks the";
-const LLM_STEPS: { token: string; options: [string, number][] }[] = [
-  { token: "cheapest", options: [["cheapest", 0.46], ["best", 0.22], ["first", 0.13], ["final", 0.1], ["one", 0.09]] },
-  { token: "plan", options: [["plan", 0.58], ["join", 0.17], ["path", 0.12], ["option", 0.08], ["way", 0.05]] },
-  { token: "and", options: [["and", 0.44], ["then", 0.24], ["for", 0.14], ["that", 0.1], ["with", 0.08]] },
-  { token: "executes", options: [["executes", 0.49], ["runs", 0.22], ["returns", 0.14], ["caches", 0.09], ["joins", 0.06]] },
-  { token: "it", options: [["it", 0.57], ["the", 0.2], ["each", 0.11], ["all", 0.07], ["a", 0.05]] },
-];
-const LLM_STAGES = ["Tokens", "Transformer", "Softmax", "Argmax"];
-
-const LlmScene = () => {
-  const [tick, setTick] = useState(0);
-  // each token takes 4 beats (0 context, 1 distribution, 2 pick the max, 3 append); then two beats of rest
-  const PERIOD = LLM_STEPS.length * 4 + 3;
-  useEffect(() => {
-    const id = setInterval(() => setTick((v) => (v + 1) % PERIOD), 750);
-    return () => clearInterval(id);
-  }, [PERIOD]);
-
-  const done = tick >= LLM_STEPS.length * 4;
-  const step = done ? LLM_STEPS.length - 1 : Math.floor(tick / 4);
-  const beat = done ? 4 : tick % 4;
-  const appended = LLM_STEPS.slice(0, step + (beat >= 3 || done ? 1 : 0)).map((s) => s.token);
-  const cur = LLM_STEPS[step];
-  const best = cur.options.reduce((a, b) => (b[1] > a[1] ? b : a));
-  const stage = done ? -1 : beat;
-
-  return (
-    <div className="absolute inset-0 flex flex-col gap-2 overflow-hidden p-3 text-primary">
-      <div className="font-mono-math flex flex-wrap items-center gap-1 text-[9px]">
-        {LLM_STAGES.map((s, i) => (
-          <span key={s} className="flex items-center gap-1">
-            <span className={cn("rounded-sm border px-1.5 py-0.5 transition-colors duration-300", i === stage ? "border-primary bg-primary text-primary-foreground" : "border-border text-muted-foreground")}>{s}</span>
-            {i < LLM_STAGES.length - 1 && <span className="text-muted-foreground">→</span>}
-          </span>
-        ))}
-      </div>
-
-      <div className="font-mono-math min-h-[3.4rem] border border-border p-2 text-[11px] leading-[1.5] text-foreground">
-        {LLM_PROMPT}
-        {appended.map((w, i) => (
-          <motion.span key={i} initial={{ opacity: 0, y: 6 }} animate={{ opacity: 1, y: 0 }} className="font-medium text-primary"> {w}</motion.span>
-        ))}
-        {done ? <span className="text-primary">.</span> : <span className="ml-0.5 inline-block h-3 w-[2px] translate-y-0.5 bg-primary" style={{ animation: "blink 1.06s step-end infinite" }} />}
-      </div>
-
-      <div className="font-mono-math text-[9.5px] uppercase tracking-[0.12em] text-muted-foreground">P(next token | context)</div>
-      <div className="space-y-1">
-        {cur.options.map(([w, p]) => {
-          const isBest = w === best[0];
-          const lit = beat >= 2 && !done;
-          return (
-            <div key={`${step}-${w}`} className="font-mono-math flex items-center gap-2 text-[10.5px]">
-              <span className={cn("w-[4.4rem] shrink-0 truncate", lit && isBest ? "font-semibold text-primary" : "text-foreground/80")}>{w}</span>
-              <span className="relative h-2.5 flex-1 bg-secondary">
-                <motion.span
-                  className="absolute inset-y-0 left-0 bg-primary"
-                  initial={false}
-                  animate={{ width: beat >= 1 && !done ? `${p * 100}%` : "0%", opacity: lit ? (isBest ? 1 : 0.28) : 0.6 }}
-                  transition={{ duration: 0.55, ease: [0.16, 1, 0.3, 1] }}
-                />
-              </span>
-              <span className={cn("w-8 text-right tabular-nums", lit && isBest ? "font-semibold text-primary" : "text-muted-foreground")}>{beat >= 1 && !done ? `${Math.round(p * 100)}%` : "–"}</span>
-            </div>
-          );
-        })}
-      </div>
-
-      <div className="font-mono-math mt-auto text-[10.5px] text-foreground/80">
-        {done ? "generation = repeat: score, softmax, take the max" : beat >= 2 ? `argmax → “${best[0]}” (${Math.round(best[1] * 100)}%)` : "softmax(z)ᵢ = e^zᵢ / Σⱼ e^zⱼ"}
-      </div>
-    </div>
-  );
-};
-
-/* ===================== Intro scene: open-shop scheduling by matrix decomposition ===================== */
-
-// n = 4 pieces, m = 3 machines. T* = 42 comes from a linear program; M' = Σ λ_r P_r is a decomposition of the
-// (n+m)×(n+m) T*-uniform matrix into permutation matrices, and each P_r gives who runs where for λ_r time units.
-const SCHED_T = [[20, 10, 30], [20, 40, 45], [40, 70, 60], [50, 40, 40]];
-const SCHED_M = [[0, 10, 0], [6, 28, 0], [36, 0, 6], [0, 4, 36]];
-const SCHED = [
-  { lam: 28, on: [3, 2, 4] }, // piece running on machine 1, 2, 3
-  { lam: 8, on: [3, 1, 4] },
-  { lam: 2, on: [2, 1, 3] },
-  { lam: 4, on: [2, 4, 3] },
-];
-const T_STAR = 42;
-
-const ScheduleScene = () => {
-  const [s, setS] = useState(0);
-  useEffect(() => {
-    const id = setInterval(() => setS((v) => (v + 1) % 9), 1050);
-    return () => clearInterval(id);
-  }, []);
-
-  // 0 the times t_ij · 1 M = x*·t · 2-5 one permutation matrix at a time · 6-8 done
-  const shown = s < 2 ? 0 : Math.min(4, s - 1);
-  const cur = shown > 0 ? SCHED[shown - 1] : null;
-  const mat = s === 0 ? SCHED_T : SCHED_M;
-
-  const colX = [46, 74, 102];
-  const rowY = (i: number) => 46 + i * 15;
-  const gx0 = 30, gw = 262, gy = (j: number) => 134 + j * 19;
-  const sx = (t: number) => gx0 + (t / T_STAR) * gw;
-
-  // gantt segments, merging consecutive steps where the same piece stays on a machine
-  const segs: { j: number; piece: number; from: number; to: number }[] = [];
-  let t0 = 0;
-  SCHED.slice(0, shown).forEach((st) => {
-    st.on.forEach((piece, j) => {
-      const last = [...segs].reverse().find((g) => g.j === j);
-      if (last && last.piece === piece && last.to === t0) last.to = t0 + st.lam;
-      else segs.push({ j, piece, from: t0, to: t0 + st.lam });
-    });
-    t0 += st.lam;
-  });
-  const ticks = [0, ...SCHED.slice(0, shown).reduce<number[]>((acc, st) => [...acc, (acc[acc.length - 1] ?? 0) + st.lam], [])];
-
-  const msg =
-    s === 0 ? "min T   s.t.  Σⱼ xᵢⱼ = 1, …   →   T* = 42" :
-    s === 1 ? "M = (mᵢⱼ),  mᵢⱼ = x*ᵢⱼ · tᵢⱼ" :
-    s < 6 ? `P${shown} · λ${shown}   with   λ${shown} = ${cur!.lam}` :
-    "Σ λᵣ = 28 + 8 + 2 + 4 = 42 = T*";
-
-  return (
-    <svg viewBox="0 0 300 250" className="absolute inset-0 h-full w-full text-primary">
-      <text x="12" y="14" fontSize="8.5" fill="currentColor" className="font-mono-math" fontWeight="600">{msg}</text>
-
-      {/* the matrix: t_ij first, then M */}
-      <text x="12" y="30" fontSize="7" fill="currentColor" className="font-mono-math" opacity="0.7">{s === 0 ? "tᵢⱼ" : "M"}</text>
-      {["m₁", "m₂", "m₃"].map((h, j) => (
-        <text key={h} x={colX[j]} y="30" textAnchor="middle" fontSize="6.5" fill="currentColor" className="font-mono-math" opacity="0.6">{h}</text>
-      ))}
-      {[0, 1, 2, 3].map((i) => (
-        <g key={i}>
-          <text x="20" y={rowY(i) + 3} textAnchor="middle" fontSize="6.5" fill="currentColor" className="font-mono-math" opacity="0.6">p{i + 1}</text>
-          {[0, 1, 2].map((j) => {
-            const on = cur ? cur.on[j] === i + 1 : false;
-            return (
-              <g key={j}>
-                <motion.rect x={colX[j] - 12} y={rowY(i) - 6.5} width="24" height="12" rx="1.5" fill="currentColor" initial={false}
-                  animate={{ fillOpacity: on ? 0.28 : 0 }} transition={{ duration: 0.25 }} />
-                <text x={colX[j]} y={rowY(i) + 3} textAnchor="middle" fontSize="8" fill="currentColor" className="font-mono-math" fontWeight={on ? 700 : 400}>{mat[i][j]}</text>
-              </g>
-            );
-          })}
-        </g>
-      ))}
-      <path d="M32 38 L28 38 L28 105 L32 105" fill="none" stroke="currentColor" strokeWidth="1" opacity="0.6" />
-      <path d="M116 38 L120 38 L120 105 L116 105" fill="none" stroke="currentColor" strokeWidth="1" opacity="0.6" />
-
-      {/* the current permutation matrix P_r (rows = pieces, columns = machines) */}
-      <text x="150" y="30" fontSize="7" fill="currentColor" className="font-mono-math" opacity="0.7">{cur ? `P${shown}` : "P_r"}</text>
-      {[0, 1, 2, 3].map((i) =>
-        [0, 1, 2].map((j) => {
-          const one = cur ? cur.on[j] === i + 1 : false;
-          return (
-            <motion.text key={`${i}-${j}`} x={172 + j * 22} y={rowY(i) + 3} textAnchor="middle" fontSize="8" fill="currentColor" className="font-mono-math" initial={false}
-              animate={{ opacity: cur ? (one ? 1 : 0.35) : 0.18 }} fontWeight={one ? 700 : 400}>
-              {cur ? (one ? 1 : 0) : "·"}
-            </motion.text>
-          );
-        }),
-      )}
-      <path d="M154 38 L150 38 L150 105 L154 105" fill="none" stroke="currentColor" strokeWidth="1" opacity="0.6" />
-      <path d="M232 38 L236 38 L236 105 L232 105" fill="none" stroke="currentColor" strokeWidth="1" opacity="0.6" />
-      <motion.text x="244" y="72" fontSize="10" fill="currentColor" className="font-mono-math" fontWeight="700" initial={false}
-        animate={{ opacity: cur ? 1 : 0 }}>×{cur ? cur.lam : ""}</motion.text>
-
-      {/* the schedule, built one permutation after another */}
-      <text x="12" y="122" fontSize="7" fill="currentColor" className="font-mono-math" opacity="0.7">plan</text>
-      {[0, 1, 2].map((j) => (
-        <g key={j}>
-          <text x="12" y={gy(j) + 10} fontSize="7" fill="currentColor" className="font-mono-math" opacity="0.7">m{["₁", "₂", "₃"][j]}</text>
-          <rect x={gx0} y={gy(j)} width={gw} height="15" fill="none" stroke="currentColor" strokeOpacity="0.2" strokeDasharray="2 3" />
-        </g>
-      ))}
-      {segs.map((g) => (
-        <g key={`${g.j}-${g.piece}-${g.from}`}>
-          <motion.rect x={sx(g.from)} y={gy(g.j)} height="15" stroke="currentColor" strokeWidth="1" fill="currentColor"
-            initial={{ width: 0, fillOpacity: 0.08 + g.piece * 0.11 }} animate={{ width: sx(g.to) - sx(g.from), fillOpacity: 0.08 + g.piece * 0.11 }}
-            transition={{ duration: 0.7, ease: [0.16, 1, 0.3, 1] }} />
-          {sx(g.to) - sx(g.from) > 14 && (
-            <motion.text initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: 0.35 }}
-              x={(sx(g.from) + sx(g.to)) / 2} y={gy(g.j) + 10.4} textAnchor="middle" fontSize="7.5" fill="hsl(var(--foreground))" className="font-mono-math">p{g.piece}</motion.text>
-          )}
-        </g>
-      ))}
-      <line x1={gx0} y1="193" x2={gx0 + gw} y2="193" stroke="currentColor" strokeOpacity="0.5" />
-      <path d={`M${gx0 + gw - 4} 190 L${gx0 + gw + 2} 193 L${gx0 + gw - 4} 196`} fill="none" stroke="currentColor" strokeOpacity="0.6" />
-      {ticks.map((tk) => (
-        <g key={tk}>
-          <line x1={sx(tk)} y1="190" x2={sx(tk)} y2="196" stroke="currentColor" />
-          <text x={sx(tk)} y="206" textAnchor="middle" fontSize="7" fill="currentColor" className="font-mono-math">{tk}</text>
-        </g>
-      ))}
-      {shown > 0 && shown < 4 && (
-        <line x1={sx(ticks[ticks.length - 1])} y1="130" x2={sx(ticks[ticks.length - 1])} y2="193" stroke="currentColor" strokeWidth="1" strokeDasharray="2 2" />
-      )}
-      <motion.text x="150" y="232" textAnchor="middle" fontSize="8.5" fill="currentColor" className="font-mono-math" fontWeight="600" initial={false}
-        animate={{ opacity: s >= 6 ? 1 : 0.55 }}>
-        {s >= 6 ? "makespan = T* = 42  ✓ optimal" : "M′ = Σ λᵣ Pᵣ   (Birkhoff–von Neumann)"}
-      </motion.text>
-    </svg>
-  );
-};
